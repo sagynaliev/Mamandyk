@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Кіру</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --green-light: #f0fdf4;
+            --green-mid: #dcfce7;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --red: #ef4444;
+            --red-light: #fef2f2;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0);
+            background-size: 32px 32px;
+            pointer-events: none; z-index: 0; opacity: 0.5;
+        }
+
+        /* HEADER */
+        header {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: 64px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Geologica', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--green); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.5);opacity:.6} }
+        .header-link { font-size: .87rem; font-weight: 700; color: var(--text-muted); text-decoration: none; }
+        .header-link:hover { color: var(--green); }
+
+        /* MAIN */
+        main {
+            position: relative; z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 44px 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+            animation: up .4s ease both;
+        }
+        @keyframes up { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+
+        .auth-top { text-align: center; margin-bottom: 36px; }
+        .auth-icon {
+            width: 60px; height: 60px;
+            background: var(--green-light);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 18px;
+        }
+        .auth-top h1 { font-family: 'Geologica', sans-serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
+        .auth-top p { font-size: .9rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* FORM */
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: .8rem; font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+        .input-wrap { position: relative; }
+        .input-icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 1rem; pointer-events: none;
+        }
+        .form-input {
+            width: 100%;
+            padding: 13px 14px 13px 42px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: .95rem; font-weight: 600;
+            color: var(--text);
+            background: var(--bg);
+            transition: all .2s;
+            outline: none;
+        }
+        .form-input:focus { border-color: var(--green); background: var(--white); box-shadow: 0 0 0 4px rgba(34,197,94,.1); }
+        .form-input.error { border-color: var(--red); box-shadow: 0 0 0 4px rgba(239,68,68,.08); }
+
+        .pass-toggle {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer;
+            font-size: .9rem; color: var(--text-muted);
+            padding: 4px;
+        }
+        .pass-toggle:hover { color: var(--green); }
+
+        /* Error/success messages */
+        .msg-box {
+            display: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: .85rem; font-weight: 700;
+            margin-bottom: 18px;
+            align-items: center; gap: 8px;
+        }
+        .msg-box.error { display: flex; background: var(--red-light); border: 1px solid #fecaca; color: var(--red); }
+        .msg-box.success { display: flex; background: var(--green-light); border: 1px solid #bbf7d0; color: var(--green-dark); }
+
+        /* Forgot password */
+        .forgot-row { display: flex; justify-content: flex-end; margin-top: -10px; margin-bottom: 18px; }
+        .forgot-link { font-size: .8rem; font-weight: 700; color: var(--text-muted); text-decoration: none; }
+        .forgot-link:hover { color: var(--green); }
+
+        /* Submit btn */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem; font-weight: 800;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 14px rgba(34,197,94,.3);
+        }
+        .btn-submit:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34,197,94,.4); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        .btn-submit .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,.4);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: none;
+        }
+        @keyframes spin { to{transform:rotate(360deg)} }
+
+        /* Divider */
+        .divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider-text { font-size: .75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+
+        /* Switch link */
+        .switch-row { text-align: center; font-size: .88rem; color: var(--text-muted); font-weight: 600; }
+        .switch-link { color: var(--green); font-weight: 800; text-decoration: none; }
+        .switch-link:hover { color: var(--green-dark); text-decoration: underline; }
+
+        /* Demo info box */
+        .demo-box {
+            margin-top: 24px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: .78rem; font-weight: 600; color: #92400e;
+            display: flex; gap: 8px; align-items: flex-start;
+        }
+
+        @media(max-width:480px) {
+            .auth-card { padding: 32px 24px; border-radius: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <a href="register.html" class="header-link">Тіркелу →</a>
+</header>
+
+<main>
+    <div class="auth-card">
+        <div class="auth-top">
+            <div class="auth-icon">🔐</div>
+            <h1>Қош келдіңіз!</h1>
+            <p>Аккаунтыңызға кіріп, нәтижелеріңізді қараңыз</p>
+        </div>
+
+        <div class="msg-box" id="msg-box">
+            <span id="msg-icon">⚠️</span>
+            <span id="msg-text"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input type="email" class="form-input" id="email" placeholder="example@mail.com" autocomplete="email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Құпиясөз</label>
+            <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" class="form-input" id="password" placeholder="••••••••" autocomplete="current-password">
+                <button class="pass-toggle" type="button" onclick="togglePass('password', this)">👁</button>
+            </div>
+        </div>
+
+        <div class="forgot-row">
+            <a href="#" class="forgot-link">Құпиясөзді ұмыттым?</a>
+        </div>
+
+        <button class="btn-submit" id="login-btn" onclick="doLogin()">
+            <div class="spinner" id="spinner"></div>
+            <span id="btn-text">Кіру</span>
+        </button>
+
+        <div class="switch-row">
+            Аккаунт жоқ па? <a href="register.html" class="switch-link">Тіркелу</a>
+        </div>
+
+        <div class="demo-box">
+            💡 <div><strong>Demo кіру:</strong> Егер тіркелмеген болсаңыз, алдымен <a href="register.html" style="color:#92400e">тіркелу</a> бетіне өтіңіз.</div>
+        </div>
+    </div>
+</main>
+
+<script>
+const API = 'http://localhost:5000';
+
+function showMsg(text, type = 'error') {
+    const box = document.getElementById('msg-box');
+    const icon = document.getElementById('msg-icon');
+    const txt = document.getElementById('msg-text');
+    box.className = 'msg-box ' + type;
+    icon.textContent = type === 'error' ? '⚠️' : '✅';
+    txt.textContent = text;
+}
+function hideMsg() {
+    document.getElementById('msg-box').className = 'msg-box';
+}
+
+function togglePass(id, btn) {
+    const inp = document.getElementById(id);
+    if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+    else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+function setLoading(on) {
+    document.getElementById('spinner').style.display = on ? 'block' : 'none';
+    document.getElementById('btn-text').textContent = on ? 'Кіруде...' : 'Кіру';
+    document.getElementById('login-btn').disabled = on;
+}
+
+// Enter key
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+    hideMsg();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) { showMsg('Email мен құпиясөзді толтырыңыз'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { showMsg('Дұрыс email енгізіңіз'); return; }
+
+    setLoading(true);
+    try {
+        const res = await fetch(`${API}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) { showMsg(data.error || 'Кіру мүмкін болмады'); setLoading(false); return; }
+
+        // Token + user сақтау
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        showMsg('Сәтті кірдіңіз! Бағытталуда...', 'success');
+        setTimeout(() => { window.location.href = 'profile.html'; }, 800);
+    } catch (err) {
+        showMsg('Сервермен байланыс жоқ. Backend іске қосылған ба?');
+        setLoading(false);
+    }
+}
+</script>
+</body>
+</html>

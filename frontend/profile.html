@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Профиль</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #22c55e; --green-dark: #16a34a;
+            --green-light: #f0fdf4; --green-mid: #dcfce7;
+            --bg: #f8fafc; --white: #ffffff;
+            --text: #0f172a; --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 24px rgba(0,0,0,.06);
+            --shadow-hover: 0 12px 40px rgba(0,0,0,.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0); background-size: 32px 32px; pointer-events: none; z-index: 0; opacity: .4; }
+
+        /* HEADER */
+        header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 68px; background: rgba(255,255,255,.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Geologica', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--green); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.5);opacity:.6} }
+        nav { display: flex; gap: 4px; }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: .87rem; padding: 8px 14px; border-radius: 10px; transition: all .2s; }
+        nav a:hover { background: var(--green-light); color: var(--green-dark); }
+        nav a.active { background: var(--green-light); color: var(--green-dark); font-weight: 800; }
+        .btn { padding: 9px 20px; border-radius: 12px; font-weight: 700; font-family: 'Inter', sans-serif; font-size: .85rem; cursor: pointer; transition: all .2s; border: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+        .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); }
+        .btn-ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+        .btn-green { background: var(--green); color: #fff; font-weight: 800; box-shadow: 0 4px 14px rgba(34,197,94,.3); }
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-red { background: #fef2f2; border: 1.5px solid #fecaca; color: #ef4444; }
+        .btn-red:hover { background: #fee2e2; }
+
+        /* WRAP */
+        .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 36px 24px 80px; }
+
+        /* PROFILE HERO */
+        .profile-hero {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 36px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            animation: up .4s ease both;
+        }
+        @keyframes up { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+
+        .profile-left { display: flex; align-items: center; gap: 24px; }
+        .avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--green-mid), #bbf7d0);
+            border-radius: 24px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Geologica', sans-serif;
+            font-size: 1.6rem; font-weight: 900;
+            color: var(--green-dark);
+            border: 3px solid #bbf7d0;
+            flex-shrink: 0;
+        }
+        .profile-name { font-family: 'Geologica', sans-serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+        .profile-email { font-size: .88rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+        .profile-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 50px; font-size: .72rem; font-weight: 800; }
+        .badge-green { background: var(--green-mid); color: var(--green-dark); border: 1px solid #bbf7d0; }
+        .badge-blue { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .badge-purple { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+        .profile-right { display: flex; gap: 10px; flex-shrink: 0; }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--white); border: 1px solid var(--border);
+            border-radius: 20px; padding: 22px 20px;
+            box-shadow: var(--shadow);
+            animation: up .4s ease both;
+        }
+        .stat-card:nth-child(2){animation-delay:.05s}
+        .stat-card:nth-child(3){animation-delay:.1s}
+        .stat-card:nth-child(4){animation-delay:.15s}
+        .stat-icon { width: 40px; height: 40px; background: var(--green-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 12px; }
+        .stat-num { font-family: 'Geologica', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 4px; }
+        .stat-lbl { font-size: .78rem; font-weight: 700; color: var(--text-muted); }
+
+        /* CONTENT GRID */
+        .content-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+        @media(max-width:900px){ .content-grid { grid-template-columns: 1fr; } }
+
+        /* SECTION CARD */
+        .sec-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 20px; animation: up .4s ease both; }
+        .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .sec-title { font-family: 'Geologica', sans-serif; font-size: .8rem; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .sec-title-icon { width: 28px; height: 28px; background: var(--green-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+
+        /* TEST HISTORY */
+        .test-item {
+            border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: all .2s;
+            position: relative; overflow: hidden;
+        }
+        .test-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--green-dark), var(--green)); }
+        .test-item:hover { border-color: #bbf7d0; box-shadow: var(--shadow-hover); transform: translateX(3px); }
+        .test-item-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .test-date { font-size: .75rem; font-weight: 700; color: var(--text-muted); }
+        .test-status { font-size: .68rem; font-weight: 800; padding: 3px 10px; border-radius: 50px; }
+        .status-done { background: var(--green-mid); color: var(--green-dark); }
+        .test-top-career { font-family: 'Geologica', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 10px; }
+        .test-score-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .test-career-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--bg); border: 1px solid var(--border); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 700; color: var(--text-muted); }
+        .test-career-pill strong { color: var(--green-dark); }
+
+        /* Expanded test detail */
+        .test-detail { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .test-detail.open { display: block; }
+        .detail-bars { margin-bottom: 14px; }
+        .d-bar-item { margin-bottom: 10px; }
+        .d-bar-head { display: flex; justify-content: space-between; font-size: .78rem; font-weight: 700; margin-bottom: 5px; }
+        .d-bar-track { height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
+        .d-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green-dark), var(--green)); border-radius: 6px; }
+        .insight-mini { background: var(--green-light); border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; font-size: .82rem; color: var(--text); line-height: 1.55; }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 50px 20px; }
+        .empty-icon { font-size: 3rem; margin-bottom: 14px; }
+        .empty-state h3 { font-family: 'Geologica', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .empty-state p { color: var(--text-muted); font-size: .88rem; margin-bottom: 20px; line-height: 1.5; }
+
+        /* Right column */
+        .personality-card { }
+        .bar-item { margin-bottom: 16px; }
+        .bar-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .bar-lbl { font-size: .8rem; font-weight: 700; color: var(--text); }
+        .bar-pct { font-size: .75rem; font-weight: 800; color: var(--green); background: var(--green-light); padding: 2px 8px; border-radius: 20px; }
+        .bar-track { height: 7px; background: var(--border); border-radius: 7px; overflow: hidden; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, var(--green-dark), var(--green)); border-radius: 7px; transition: width 1s; }
+
+        /* Edit modal */
+        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; }
+        .modal-bg.open { display: flex; }
+        .modal { background: var(--white); border-radius: 24px; padding: 36px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,.15); animation: up .3s ease; }
+        .modal h2 { font-family: 'Geologica', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: .78rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 7px; }
+        .form-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-family: 'Inter', sans-serif; font-size: .93rem; font-weight: 600; color: var(--text); background: var(--bg); outline: none; transition: all .2s; }
+        .form-input:focus { border-color: var(--green); background: var(--white); box-shadow: 0 0 0 4px rgba(34,197,94,.1); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 24px; }
+
+        /* Loader */
+        .loader { text-align: center; padding: 40px; color: var(--text-muted); }
+        .dots { display: inline-flex; gap: 6px; margin-bottom: 10px; }
+        .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: bop 1.2s infinite; }
+        .dots span:nth-child(2){animation-delay:.2s} .dots span:nth-child(3){animation-delay:.4s}
+        @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
+
+        @media(max-width:768px){
+            nav{display:none;}
+            .profile-hero{flex-direction:column;align-items:flex-start;}
+            .stats-row{grid-template-columns:repeat(2,1fr);}
+            .profile-right{flex-wrap:wrap;}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <nav>
+        <a href="index.html">Басты бет</a>
+        <a href="profile.html" class="active">Профиль</a>
+        <a href="index.html">Тест тапсыру</a>
+    </nav>
+    <div style="display:flex;gap:8px;">
+        <button class="btn btn-green" onclick="window.location.href='index.html'">+ Жаңа тест</button>
+        <button class="btn btn-ghost" onclick="logout()">Шығу</button>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <!-- PROFILE HERO -->
+    <div class="profile-hero" id="profile-hero">
+        <div class="loader"><div class="dots"><span></span><span></span><span></span></div></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+        <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-num" id="st-total">—</div><div class="stat-lbl">Тапсырылған тест</div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-num" id="st-top">—</div><div class="stat-lbl">Үздік сәйкестік</div></div>
+        <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num" id="st-last">—</div><div class="stat-lbl">Соңғы тест</div></div>
+        <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-num" id="st-career">—</div><div class="stat-lbl">Ұсынылған мамандық</div></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-grid">
+
+        <!-- LEFT: Test history -->
+        <div>
+            <div class="sec-card">
+                <div class="sec-head">
+                    <div class="sec-title"><div class="sec-title-icon">📊</div>Тест тарихы</div>
+                    <button class="btn btn-green" style="padding:7px 16px;font-size:.8rem" onclick="window.location.href='index.html'">+ Жаңа тест</button>
+                </div>
+                <div id="history-container">
+                    <div class="loader"><div class="dots"><span></span><span></span><span></span></div><div>Жүктелуде...</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Personality summary -->
+        <div>
+            <div class="sec-card">
+                <div class="sec-head">
+                    <div class="sec-title"><div class="sec-title-icon">🧠</div>Тұлғалық профиль</div>
+                </div>
+                <div id="personality-summary">
+                    <div class="loader"><div class="dots"><span></span><span></span><span></span></div></div>
+                </div>
+            </div>
+
+            <div class="sec-card" style="animation-delay:.2s">
+                <div class="sec-head">
+                    <div class="sec-title"><div class="sec-title-icon">🎯</div>Үздік мамандықтар</div>
+                </div>
+                <div id="top-careers-summary">
+                    <div class="loader"><div class="dots"><span></span><span></span><span></span></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-bg" id="edit-modal">
+    <div class="modal">
+        <h2>✏️ Профильді өзгерту</h2>
+        <div class="form-group">
+            <label class="form-label">Аты</label>
+            <input type="text" class="form-input" id="edit-first">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Тегі</label>
+            <input type="text" class="form-input" id="edit-last">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Мектеп / Университет</label>
+            <input type="text" class="form-input" id="edit-school">
+        </div>
+        <div class="modal-btns">
+            <button class="btn btn-green" style="flex:1" onclick="saveEdit()">💾 Сақтау</button>
+            <button class="btn btn-ghost" onclick="closeModal()">Болдырмау</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = 'http://localhost:5000';
+
+// ── Auth guard ───────────────────────────────────────────
+const token = localStorage.getItem('token');
+const userRaw = localStorage.getItem('user');
+if (!token || !userRaw) { window.location.href = 'login.html'; }
+let user = JSON.parse(userRaw || '{}');
+
+function authHeaders() {
+    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+}
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    renderProfileHero();
+    loadHistory();
+});
+
+// ── Render profile hero ───────────────────────────────────
+function renderProfileHero() {
+    const initials = ((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || '?';
+    const joined = user.created_at ? new Date(user.created_at).toLocaleDateString('kk-KZ', {year:'numeric',month:'long'}) : '2025';
+    document.getElementById('profile-hero').innerHTML = `
+        <div class="profile-left">
+            <div class="avatar">${initials}</div>
+            <div>
+                <div class="profile-name">${user.first_name || ''} ${user.last_name || ''}</div>
+                <div class="profile-email">✉️ ${user.email || ''}</div>
+                <div class="profile-badges">
+                    <span class="badge badge-green">✅ Тіркелген</span>
+                    ${user.school ? `<span class="badge badge-blue">🏫 ${user.school}</span>` : ''}
+                    <span class="badge badge-purple">📅 ${joined}</span>
+                </div>
+            </div>
+        </div>
+        <div class="profile-right">
+            <button class="btn btn-ghost" onclick="openModal()">✏️ Өзгерту</button>
+            <button class="btn btn-red" onclick="logout()">🚪 Шығу</button>
+        </div>`;
+    // Pre-fill modal
+    document.getElementById('edit-first').value  = user.first_name || '';
+    document.getElementById('edit-last').value   = user.last_name  || '';
+    document.getElementById('edit-school').value = user.school     || '';
+}
+
+// ── Load test history ─────────────────────────────────────
+async function loadHistory() {
+    try {
+        const res = await fetch(`${API}/api/results/my`, { headers: authHeaders() });
+        if (!res.ok) throw new Error();
+        const results = await res.json();
+        renderHistory(results);
+        renderStats(results);
+        renderPersonalitySummary(results);
+        renderTopCareers(results);
+    } catch {
+        // Demo mode — localStorage-тан алу
+        renderDemoHistory();
+    }
+}
+
+function renderHistory(results) {
+    const c = document.getElementById('history-container');
+    if (!results.length) {
+        c.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h3>Тест тарихы жоқ</h3>
+                <p>Әзірге ешбір тест тапсырылмаған. Алғашқы тестіңізді тапсырып, нәтижеңізді сақтаңыз!</p>
+                <button class="btn btn-green" onclick="window.location.href='index.html'">🚀 Тест тапсыру</button>
+            </div>`;
+        return;
+    }
+    c.innerHTML = results.map((r, i) => buildTestItem(r, i)).join('');
+}
+
+function buildTestItem(r, i) {
+    const date = new Date(r.created_at).toLocaleDateString('kk-KZ', {year:'numeric',month:'long',day:'numeric'});
+    const topCareer = r.careers?.[0] || {};
+    const pills = (r.careers || []).slice(0,3).map(c =>
+        `<div class="test-career-pill">🎯 ${c.title} <strong>${c.score}%</strong></div>`
+    ).join('');
+    const bars = (r.personality || []).map(p =>
+        `<div class="d-bar-item">
+            <div class="d-bar-head"><span>${p.left}</span><span style="color:var(--green)">${p.leftVal}%</span></div>
+            <div class="d-bar-track"><div class="d-bar-fill" style="width:${p.leftVal}%"></div></div>
+        </div>`
+    ).join('');
+    return `
+    <div class="test-item" onclick="toggleDetail(${i})">
+        <div class="test-item-head">
+            <div class="test-date">📅 ${date}</div>
+            <span class="test-status status-done">✓ Аяқталды</span>
+        </div>
+        <div class="test-top-career">🏆 ${topCareer.title || '—'}</div>
+        <div class="test-score-row">${pills}</div>
+        <div class="test-detail" id="detail-${i}">
+            <div class="detail-bars">${bars}</div>
+            ${r.insight ? `<div class="insight-mini">💡 ${r.insight}</div>` : ''}
+            <div style="margin-top:12px;display:flex;gap:8px">
+                <button class="btn btn-green" style="padding:8px 16px;font-size:.8rem" onclick="event.stopPropagation();viewResult(${i})">📊 Толық нәтижені көру</button>
+                <button class="btn btn-ghost" style="padding:8px 14px;font-size:.8rem" onclick="event.stopPropagation();downloadResult(${i})">📥 PDF</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+function toggleDetail(i) {
+    const d = document.getElementById(`detail-${i}`);
+    d.classList.toggle('open');
+}
+
+function viewResult(i) {
+    // Нәтижені localStorage-қа салып results.html-ге жіберу
+    const results = window._results || [];
+    if (results[i]) {
+        localStorage.setItem('viewResult', JSON.stringify(results[i]));
+        window.location.href = 'results.html';
+    }
+}
+
+function renderStats(results) {
+    const total = results.length;
+    const topScore = results.reduce((max, r) => {
+        const s = r.careers?.[0]?.score || 0;
+        return s > max ? s : max;
+    }, 0);
+    const lastDate = results[0] ? new Date(results[0].created_at).toLocaleDateString('kk-KZ', {month:'short',day:'numeric'}) : '—';
+    const uniqueCareers = new Set(results.flatMap(r => (r.careers||[]).map(c => c.title))).size;
+
+    document.getElementById('st-total').textContent = total;
+    document.getElementById('st-top').textContent   = topScore ? `${topScore}%` : '—';
+    document.getElementById('st-last').textContent  = lastDate;
+    document.getElementById('st-career').textContent = uniqueCareers || '—';
+}
+
+function renderPersonalitySummary(results) {
+    if (!results.length) {
+        document.getElementById('personality-summary').innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:.88rem">Тест тапсырылмаған</div>`;
+        return;
+    }
+    // Соңғы нәтиженің тұлғасы
+    const p = results[0].personality || [];
+    document.getElementById('personality-summary').innerHTML = p.map(d => `
+        <div class="bar-item">
+            <div class="bar-head">
+                <span class="bar-lbl">${d.left}</span>
+                <span class="bar-pct">${d.leftVal}%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${d.leftVal}%"></div></div>
+        </div>`).join('') || '<div style="color:var(--text-muted);font-size:.85rem">Деректер жоқ</div>';
+}
+
+function renderTopCareers(results) {
+    if (!results.length) {
+        document.getElementById('top-careers-summary').innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:.88rem">Тест тапсырылмаған</div>`;
+        return;
+    }
+    // Барлық нәтижелерден top careers жинау
+    const careerMap = {};
+    results.forEach(r => {
+        (r.careers || []).forEach(c => {
+            if (!careerMap[c.title] || careerMap[c.title] < c.score) careerMap[c.title] = c.score;
+        });
+    });
+    const sorted = Object.entries(careerMap).sort((a,b) => b[1]-a[1]).slice(0,4);
+    document.getElementById('top-careers-summary').innerHTML = sorted.map(([title, score]) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+            <span style="font-weight:700;font-size:.88rem">${title}</span>
+            <span style="background:var(--green-mid);color:var(--green-dark);font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:50px">${score}%</span>
+        </div>`).join('') + `<button class="btn btn-green" style="width:100%;margin-top:16px;justify-content:center" onclick="window.location.href='index.html'">+ Жаңа тест тапсыру</button>`;
+}
+
+// ── Demo mode (backend жоқ кезде) ─────────────────────────
+function renderDemoHistory() {
+    // localStorage-тан соңғы тест жауаптарын алу
+    const answers = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k?.startsWith('q')) answers[k] = localStorage.getItem(k);
+    }
+    const hasTest = Object.keys(answers).length > 0;
+
+    const demoResults = hasTest ? [{
+        created_at: new Date().toISOString(),
+        insight: 'Сіздің жауаптарыңыз аналитикалық қабілеттіліктің жоғары деңгейін көрсетеді.',
+        personality: [
+            {left:'Аналитика', leftVal:72, right:'Шығармашылық', rightVal:28},
+            {left:'Интроверт', leftVal:45, right:'Экстраверт', rightVal:55},
+            {left:'Теория', leftVal:38, right:'Тәжірибе', rightVal:62},
+        ],
+        careers: [
+            {title:'Software Engineer', score:94},
+            {title:'Data Scientist', score:87},
+            {title:'Product Manager', score:79},
+        ]
+    }] : [];
+
+    window._results = demoResults;
+    renderHistory(demoResults);
+    renderStats(demoResults);
+    renderPersonalitySummary(demoResults);
+    renderTopCareers(demoResults);
+}
+
+// ── Edit modal ────────────────────────────────────────────
+function openModal() { document.getElementById('edit-modal').classList.add('open'); }
+function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
+
+async function saveEdit() {
+    const first_name = document.getElementById('edit-first').value.trim();
+    const last_name  = document.getElementById('edit-last').value.trim();
+    const school     = document.getElementById('edit-school').value.trim();
+    if (!first_name || !last_name) return;
+    try {
+        const res = await fetch(`${API}/api/auth/profile`, {
+            method: 'PUT',
+            headers: authHeaders(),
+            body: JSON.stringify({ first_name, last_name, school })
+        });
+        if (res.ok) {
+            user = { ...user, first_name, last_name, school };
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+    } catch {}
+    renderProfileHero();
+    closeModal();
+}
+
+// ── Logout ────────────────────────────────────────────────
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+}
+
+// Close modal on bg click
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>

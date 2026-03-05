@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Көмек</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--green:#22c55e;--green-dark:#16a34a;--green-light:#f0fdf4;--green-mid:#dcfce7;--bg:#f8fafc;--white:#fff;--text:#0f172a;--text-muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(0,0,0,.06);}
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,#e2e8f0 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0;opacity:.4;}
+        header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+        .logo{font-family:'Geologica',sans-serif;font-size:1.25rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+        .logo-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4);opacity:.6}}
+        nav{display:flex;gap:4px;}
+        nav a{color:var(--text-muted);text-decoration:none;font-weight:600;font-size:.87rem;padding:8px 14px;border-radius:10px;transition:all .2s;}
+        nav a:hover,nav a.active{background:var(--green-light);color:var(--green-dark);}
+        .header-btns{display:flex;gap:8px;}
+        .btn{padding:9px 22px;border-radius:12px;font-weight:700;font-family:'Inter',sans-serif;font-size:.87rem;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+        .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text-muted);}
+        .btn-ghost:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
+        .btn-green{background:var(--green);color:#fff;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.3);}
+        .btn-green:hover{background:var(--green-dark);transform:translateY(-1px);}
+        main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+        @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        .page-hero{text-align:center;margin-bottom:52px;animation:up .4s ease;}
+        .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-mid);border:1px solid #bbf7d0;border-radius:50px;padding:5px 14px;font-size:.72rem;font-weight:800;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px;}
+        h1{font-family:'Geologica',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.15;margin-bottom:14px;letter-spacing:-1px;}
+        h1 em{font-style:normal;color:var(--green);}
+        .subtitle{font-size:.95rem;color:var(--text-muted);line-height:1.7;max-width:500px;margin:0 auto;}
+        .sec{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:36px;margin-bottom:20px;box-shadow:var(--shadow);animation:up .4s ease both;}
+        .sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.1s}.sec:nth-child(4){animation-delay:.15s}
+        .sec-title{font-family:'Geologica',sans-serif;font-size:.82rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+        .sec-icon{width:36px;height:36px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+        /* Contact cards */
+        .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+        .contact-card{border:1.5px solid var(--border);border-radius:18px;padding:22px;text-align:center;transition:all .2s;cursor:pointer;text-decoration:none;display:block;background:var(--bg);}
+        .contact-card:hover{border-color:var(--green);background:var(--green-light);transform:translateY(-3px);box-shadow:0 8px 24px rgba(34,197,94,.15);}
+        .contact-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 14px;}
+        .contact-name{font-family:'Geologica',sans-serif;font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:5px;}
+        .contact-val{font-size:.82rem;color:var(--text-muted);font-weight:600;}
+        /* Telegram specific */
+        .tg-blue .contact-icon{background:#e8f4fd;}
+        .wa-green .contact-icon{background:#e8f5e9;}
+        .ig-pink .contact-icon{background:#fce4ec;}
+        .email-orange .contact-icon{background:#fff3e0;}
+        /* Status badge */
+        .status-online{display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:50px;padding:6px 14px;font-size:.75rem;font-weight:800;color:var(--green-dark);margin-bottom:20px;}
+        .status-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite;}
+        /* Message form */
+        .form-group{margin-bottom:16px;}
+        .form-label{display:block;font-size:.75rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;}
+        .form-input,.form-textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;font-family:'Inter',sans-serif;font-size:.93rem;font-weight:600;color:var(--text);background:var(--bg);outline:none;transition:all .2s;resize:none;}
+        .form-input:focus,.form-textarea:focus{border-color:var(--green);background:var(--white);box-shadow:0 0 0 4px rgba(34,197,94,.1);}
+        .form-textarea{min-height:100px;}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .submit-btn{width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:12px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(34,197,94,.3);}
+        .submit-btn:hover{background:var(--green-dark);transform:translateY(-1px);}
+        .success-msg{display:none;background:var(--green-light);border:1px solid #bbf7d0;border-radius:12px;padding:14px;text-align:center;font-weight:700;color:var(--green-dark);font-size:.88rem;margin-top:12px;}
+        .success-msg.show{display:block;}
+        /* Map / location */
+        .location-row{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;}
+        .location-icon{width:36px;height:36px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+        .location-text strong{display:block;font-size:.85rem;font-weight:800;color:var(--text);}
+        .location-text span{font-size:.78rem;color:var(--text-muted);}
+        /* Working hours */
+        .hours-table{width:100%;border-collapse:collapse;}
+        .hours-table tr{border-bottom:1px solid var(--border);}
+        .hours-table tr:last-child{border-bottom:none;}
+        .hours-table td{padding:10px 0;font-size:.85rem;}
+        .hours-table td:first-child{color:var(--text);font-weight:700;width:50%;}
+        .hours-table td:last-child{color:var(--green-dark);font-weight:800;text-align:right;}
+        .badge-open{background:var(--green-mid);color:var(--green-dark);font-size:.65rem;font-weight:800;padding:2px 8px;border-radius:50px;margin-left:8px;}
+        @media(max-width:600px){nav{display:none;}.form-row{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <nav>
+        <a href="about.html">Тест туралы</a>
+        <a href="careers.html">Мамандықтар</a>
+        <a href="help.html" class="active">Көмек</a>
+    </nav>
+    <div class="header-btns" id="header-btns">
+        <button class="btn btn-ghost" onclick="location.href='login.html'">Кіру</button>
+        <button class="btn btn-green" onclick="location.href='register.html'">Тіркелу</button>
+    </div>
+</header>
+
+<main>
+    <div class="page-hero">
+        <div class="page-badge">🆘 Тех қолдау</div>
+        <h1>Сұрағың бар ма? <em>Хабарлас!</em></h1>
+        <p class="subtitle">Кез келген мәселе бойынша тікелей байланысуға болады. Тез жауап беруге тырысамыз.</p>
+    </div>
+
+    <!-- Байланыс -->
+    <div class="sec">
+        <div class="status-online"><div class="status-dot"></div>Онлайн — жауап беруде</div>
+        <div class="sec-title"><div class="sec-icon">📲</div>Тікелей байланыс</div>
+        <div class="contact-grid">
+            <a href="https://t.me/YOUR_TELEGRAM" target="_blank" class="contact-card tg-blue">
+                <div class="contact-icon">✈️</div>
+                <div class="contact-name">Telegram</div>
+                <div class="contact-val">@mamandyk_support</div>
+            </a>
+            <a href="https://wa.me/77001234567" target="_blank" class="contact-card wa-green">
+                <div class="contact-icon">💬</div>
+                <div class="contact-name">WhatsApp</div>
+                <div class="contact-val">+7 700 123 45 67</div>
+            </a>
+            <a href="https://instagram.com/mamandyk.kz" target="_blank" class="contact-card ig-pink">
+                <div class="contact-icon">📸</div>
+                <div class="contact-name">Instagram</div>
+                <div class="contact-val">@mamandyk.kz</div>
+            </a>
+            <a href="/cdn-cgi/l/email-protection#d5a6a0a5a5baa7a195b8b4b8b4bbb1acbefbbeaf" class="contact-card email-orange">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-name">Email</div>
+                <div class="contact-val"><span class="__cf_email__" data-cfemail="f5868085859a8781b5989498949b918c9edb9e8f">[email&#160;protected]</span></div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Хабарлама жіберу -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">💌</div>Хабарлама жіберу</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Атыңыз</label>
+                <input type="text" class="form-input" id="c-name" placeholder="Азиз">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="c-email" placeholder="example@mail.com">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Тақырып</label>
+            <input type="text" class="form-input" id="c-subject" placeholder="Мысалы: Тестте қате шықты...">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Хабарлама</label>
+            <textarea class="form-textarea" id="c-message" placeholder="Мәселеңізді егжей-тегжейлі жазыңыз..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="sendMsg()">✉️ Жіберу</button>
+        <div class="success-msg" id="success-msg">✅ Хабарламаңыз жіберілді! Жақын арада хабарласамыз.</div>
+    </div>
+
+    <!-- Жұмыс уақыты -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">🕐</div>Жұмыс уақыты</div>
+        <table class="hours-table">
+            <tr><td>Дүйсенбі — Жұма <span class="badge-open">Ашық</span></td><td>09:00 — 21:00</td></tr>
+            <tr><td>Сенбі</td><td>10:00 — 18:00</td></tr>
+            <tr><td>Жексенбі</td><td>12:00 — 17:00</td></tr>
+        </table>
+        <p style="margin-top:14px;font-size:.8rem;color:var(--text-muted);">⚡ Telegram арқылы жіберілген хабарламаларға 30 минут ішінде жауап береміз.</p>
+    </div>
+
+    <!-- Орналасу -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">📍</div>Орналасу</div>
+        <div class="location-row"><div class="location-icon">🏙️</div><div class="location-text"><strong>Алматы қаласы</strong><span>Қазақстан, 050000</span></div></div>
+        <div class="location-row"><div class="location-icon">🏫</div><div class="location-text"><strong>Жобаны жасаушы</strong><span>NIS / NU / KBTU студенті</span></div></div>
+        <div class="location-row"><div class="location-icon">🌐</div><div class="location-text"><strong>mamandyk.kz</strong><span>Веб-платформа</span></div></div>
+    </div>
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const u = JSON.parse(localStorage.getItem('user')||'null');
+if (u) {
+    const init = ((u.first_name?.[0]||'')+(u.last_name?.[0]||'')).toUpperCase();
+    document.getElementById('header-btns').innerHTML = `
+        <button class="btn btn-ghost" onclick="location.href='profile.html'" style="gap:8px">
+            <span style="width:26px;height:26px;background:var(--green-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:.75rem">${init}</span>
+            ${u.first_name}
+        </button>
+        <button class="btn btn-green" onclick="location.href='profile.html'">Профиль</button>`;
+    // Pre-fill form
+    document.getElementById('c-name').value  = `${u.first_name} ${u.last_name}`;
+    document.getElementById('c-email').value = u.email || '';
+}
+
+function sendMsg() {
+    const name    = document.getElementById('c-name').value.trim();
+    const email   = document.getElementById('c-email').value.trim();
+    const subject = document.getElementById('c-subject').value.trim();
+    const message = document.getElementById('c-message').value.trim();
+    if (!name || !email || !message) { alert('Барлық өрістерді толтырыңыз'); return; }
+    // In real production — POST to backend /api/contact
+    document.getElementById('success-msg').classLi

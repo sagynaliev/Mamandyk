@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Тест туралы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--green:#22c55e;--green-dark:#16a34a;--green-light:#f0fdf4;--green-mid:#dcfce7;--bg:#f8fafc;--white:#fff;--text:#0f172a;--text-muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(0,0,0,.06);}
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,#e2e8f0 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0;opacity:.4;}
+        header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+        .logo{font-family:'Geologica',sans-serif;font-size:1.25rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+        .logo-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4);opacity:.6}}
+        nav{display:flex;gap:4px;}
+        nav a{color:var(--text-muted);text-decoration:none;font-weight:600;font-size:.87rem;padding:8px 14px;border-radius:10px;transition:all .2s;}
+        nav a:hover,nav a.active{background:var(--green-light);color:var(--green-dark);}
+        .header-btns{display:flex;gap:8px;}
+        .btn{padding:9px 22px;border-radius:12px;font-weight:700;font-family:'Inter',sans-serif;font-size:.87rem;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+        .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text-muted);}
+        .btn-ghost:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
+        .btn-green{background:var(--green);color:#fff;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.3);}
+        .btn-green:hover{background:var(--green-dark);transform:translateY(-1px);}
+        main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:60px 24px 80px;}
+        .page-hero{text-align:center;margin-bottom:60px;animation:up .4s ease;}
+        @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-mid);border:1px solid #bbf7d0;border-radius:50px;padding:5px 14px;font-size:.72rem;font-weight:800;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px;}
+        h1{font-family:'Geologica',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;line-height:1.15;margin-bottom:16px;letter-spacing:-1px;}
+        h1 em{font-style:normal;color:var(--green);}
+        .subtitle{font-size:1rem;color:var(--text-muted);line-height:1.7;max-width:560px;margin:0 auto;}
+        .sec{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:36px;margin-bottom:20px;box-shadow:var(--shadow);animation:up .4s ease both;}
+        .sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.1s}.sec:nth-child(4){animation-delay:.15s}.sec:nth-child(5){animation-delay:.2s}
+        .sec-title{font-family:'Geologica',sans-serif;font-size:.85rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+        .sec-icon{width:36px;height:36px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+        .sec p{font-size:.92rem;color:var(--text-muted);line-height:1.75;margin-bottom:12px;}
+        .sec p:last-child{margin-bottom:0;}
+        .faq-item{border-bottom:1px solid var(--border);padding:18px 0;}
+        .faq-item:last-child{border-bottom:none;padding-bottom:0;}
+        .faq-q{font-weight:800;font-size:.93rem;color:var(--text);margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;}
+        .faq-q::before{content:'Q';font-family:'Geologica',sans-serif;font-size:.65rem;background:var(--green);color:white;padding:3px 7px;border-radius:6px;flex-shrink:0;margin-top:1px;}
+        .faq-a{font-size:.88rem;color:var(--text-muted);line-height:1.65;padding-left:30px;}
+        .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;}
+        .step-item{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;}
+        .step-num-circle{width:44px;height:44px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Geologica',sans-serif;font-weight:900;font-size:.9rem;margin:0 auto 12px;}
+        .step-item h4{font-family:'Geologica',sans-serif;font-size:.75rem;font-weight:700;margin-bottom:6px;}
+        .step-item p{font-size:.8rem;color:var(--text-muted);line-height:1.5;}
+        .scale-demo{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px 0;}
+        .scale-circle{border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:white;}
+        .cta-box{background:linear-gradient(135deg,var(--green-light),var(--green-mid));border:1px solid #bbf7d0;border-radius:24px;padding:40px;text-align:center;margin-top:40px;}
+        .cta-box h2{font-family:'Geologica',sans-serif;font-size:1.2rem;font-weight:900;margin-bottom:10px;}
+        .cta-box p{color:var(--text-muted);font-size:.9rem;margin-bottom:24px;}
+        @media(max-width:600px){nav{display:none;}}
+    </style>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <nav>
+        <a href="about.html" class="active">Тест туралы</a>
+        <a href="careers.html">Мамандықтар</a>
+        <a href="help.html">Көмек</a>
+    </nav>
+    <div class="header-btns" id="header-btns">
+        <button class="btn btn-ghost" onclick="location.href='login.html'">Кіру</button>
+        <button class="btn btn-green" onclick="location.href='register.html'">Тіркелу</button>
+    </div>
+</header>
+
+<main>
+    <div class="page-hero">
+        <div class="page-badge">📝 Тест туралы</div>
+        <h1>Mamandyk тесті <em>қалай жұмыс</em> істейді?</h1>
+        <p class="subtitle">Ғылыми негіздегі психометриялық тест арқылы сенің болашақ мамандығыңды анықтайды</p>
+    </div>
+
+    <!-- Не себебі -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">🧠</div>Тест не анықтайды?</div>
+        <p>Mamandyk тесті — Riasec (Holland) моделіне негізделген <strong>кәсіби бейімділік тесті</strong>. Ол сенің қызығушылықтарыңды, күшті жақтарыңды және жұмыс стилін талдайды.</p>
+        <p>20 сұрақ арқылы AI сенің тұлғалық портретіңді жасайды: аналитикалық / шығармашылық, интроверт / экстраверт, теория / тәжірибе бейімділіктеріңді анықтайды.</p>
+        <p>Нәтижесінде сенің профиліңе ең сәйкес <strong>3-5 мамандық</strong> ұсынылады — айлық, өсу мүмкіндігі, жол картасымен.</p>
+    </div>
+
+    <!-- Қадамдар -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">🚀</div>3 қарапайым қадам</div>
+        <div class="steps-grid">
+            <div class="step-item">
+                <div class="step-num-circle">1</div>
+                <h4>Тіркелу</h4>
+                <p>Тегін аккаунт жасап, нәтижелеріңді сақта</p>
+            </div>
+            <div class="step-item">
+                <div class="step-num-circle">2</div>
+                <h4>20 сұрақ</h4>
+                <p>7 балдық шкала бойынша шынайы жауап бер</p>
+            </div>
+            <div class="step-item">
+                <div class="step-num-circle">3</div>
+                <h4>AI талдайды</h4>
+                <p>Gemini AI жауаптарыңды талдап нәтиже береді</p>
+            </div>
+            <div class="step-item">
+                <div class="step-num-circle">4</div>
+                <h4>Roadmap ал</h4>
+                <p>Кез келген мамандық бойынша жол картасын жүктеп ал</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Шкала -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">📊</div>Ликерт шкаласы дегеніміз не?</div>
+        <p>Тест <strong>7 балдық Ликерт шкаласын</strong> қолданады. Бұл психологиядағы ең сенімді өлшеу тәсілдерінің бірі:</p>
+        <div class="scale-demo">
+            <div class="scale-circle" style="width:50px;height:50px;border-color:#ef4444;background:#ef4444;font-size:.7rem">-3</div>
+            <div class="scale-circle" style="width:38px;height:38px;border-color:#f97316;background:#f97316;font-size:.65rem">-2</div>
+            <div class="scale-circle" style="width:28px;height:28px;border-color:#fbbf24;background:#fbbf24;font-size:.6rem">-1</div>
+            <div class="scale-circle" style="width:34px;height:34px;border-color:#94a3b8;background:#94a3b8;font-size:.65rem">0</div>
+            <div class="scale-circle" style="width:28px;height:28px;border-color:#4ade80;background:#4ade80;font-size:.6rem">+1</div>
+            <div class="scale-circle" style="width:38px;height:38px;border-color:#22c55e;background:#22c55e;font-size:.65rem">+2</div>
+            <div class="scale-circle" style="width:50px;height:50px;border-color:#16a34a;background:#16a34a;font-size:.7rem">+3</div>
+        </div>
+        <p style="text-align:center;font-size:.8rem;color:var(--text-muted)">← Мүлде келіспеймін &nbsp;&nbsp;&nbsp; Бейтарап &nbsp;&nbsp;&nbsp; Толық келісемін →</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="sec">
+        <div class="sec-title"><div class="sec-icon">❓</div>Жиі қойылатын сұрақтар</div>
+        <div class="faq-item">
+            <div class="faq-q">Тест қанша уақыт алады?</div>
+            <div class="faq-a">Орта есеппен 5-10 минут. Барлығы 20 сұрақ, бетіне 5-тен. Жауаптарыңыз автоматты сақталады — кейін де жалғастыра аласыз.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Нәтижелер дұрыс па?</div>
+            <div class="faq-a">Тест ғылыми негіздегі Holland моделіне сүйенеді. Google Gemini AI жауаптарыңды тереңдетіп талдайды. Дегенмен нәтиже — кеңес, соңғы шешімді өзің қабылдайсың.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Деректерім қауіпсіз бе?</div>
+            <div class="faq-a">Иә. Жауаптарыңыз тек AI талдауы үшін қолданылады. Профиліңнің деректері шифрланып PostgreSQL-де сақталады. Үшінші тарапқа берілмейді.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Тестті қайта тапсыруға болады ма?</div>
+            <div class="faq-a">Иә! Тіркелген пайдаланушылар профильде барлық тест тарихын көре алады. Кез келген уақытта жаңа тест тапсырып, нәтижелерді салыстыруға болады.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Roadmap дегеніміз не?</div>
+            <div class="faq-a">Мамандықтар бетінде нәтижеңнен шыққан кез келген мамандықты басқанда — AI сол мамандыққа жету үшін не үйрену керек, қандай курстар мен дағдылар қажет екенін қадамдап көрсетеді.</div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <h2>Өз мамандығыңды анықтауға дайынсың ба?</h2>
+        <p>Тегін тіркеліп, 10 минутта нәтижеңді ал</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-green" style="padding:12px 28px;font-size:.95rem" onclick="location.href='register.html'">🚀 Тіркелу — Тегін</button>
+            <button class="btn btn-ghost" style="padding:12px 28px;font-size:.95rem" onclick="location.href='index.html'">Тестке өту →</button>
+        </div>
+    </div>
+</main>
+
+<script>
+// Auth header
+const u = JSON.parse(localStorage.getItem('user')||'null');
+if (u) {
+    const init = ((u.first_name?.[0]||'')+(u.last_name?.[0]||'')).toUpperCase();
+    document.getElementById('header-btns').innerHTML = `
+        <button class="btn btn-ghost" onclick="location.href='profile.html'" style="gap:8px">
+            <span style="width:26px;height:26px;background:var(--green-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:.75rem">${init}</span>
+            ${u.first_name}
+        </button>
+        <button class="btn btn-green" onclick="location.href='profile.html'">Профиль</button>`;
+}
+</script>
+</body>
+</html>

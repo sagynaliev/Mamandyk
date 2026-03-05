@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Тіркелу</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #22c55e; --green-dark: #16a34a;
+            --green-light: #f0fdf4; --green-mid: #dcfce7;
+            --bg: #f8fafc; --white: #ffffff;
+            --text: #0f172a; --text-muted: #64748b;
+            --border: #e2e8f0; --red: #ef4444; --red-light: #fef2f2;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0); background-size: 32px 32px; pointer-events: none; z-index: 0; opacity: .5; }
+
+        header { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; background: var(--white); border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Geologica', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--green); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.5);opacity:.6} }
+        .header-link { font-size: .87rem; font-weight: 700; color: var(--text-muted); text-decoration: none; }
+        .header-link:hover { color: var(--green); }
+
+        main { position: relative; z-index: 1; flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+
+        .auth-card { background: var(--white); border: 1px solid var(--border); border-radius: 28px; padding: 44px 40px; width: 100%; max-width: 460px; box-shadow: 0 8px 40px rgba(0,0,0,.07); animation: up .4s ease both; }
+        @keyframes up { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+
+        .auth-top { text-align: center; margin-bottom: 32px; }
+        .auth-icon { width: 60px; height: 60px; background: var(--green-light); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 18px; }
+        .auth-top h1 { font-family: 'Geologica', sans-serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
+        .auth-top p { font-size: .9rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* Steps indicator */
+        .steps-ind { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 28px; }
+        .step-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; border: 2px solid var(--border); color: var(--text-muted); background: var(--white); position: relative; z-index: 1; transition: all .3s; }
+        .step-dot.active { border-color: var(--green); background: var(--green); color: white; }
+        .step-dot.done { border-color: var(--green); background: var(--green-light); color: var(--green); }
+        .step-line { width: 60px; height: 2px; background: var(--border); transition: background .3s; }
+        .step-line.done { background: var(--green); }
+
+        .form-group { margin-bottom: 16px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-label { display: block; font-size: .78rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 7px; }
+        .input-wrap { position: relative; }
+        .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; }
+        .form-input { width: 100%; padding: 12px 14px 12px 42px; border: 1.5px solid var(--border); border-radius: 14px; font-family: 'Inter', sans-serif; font-size: .93rem; font-weight: 600; color: var(--text); background: var(--bg); transition: all .2s; outline: none; }
+        .form-input:focus { border-color: var(--green); background: var(--white); box-shadow: 0 0 0 4px rgba(34,197,94,.1); }
+        .form-input.error { border-color: var(--red); }
+        .form-input-no-icon { padding-left: 14px; }
+
+        /* Password strength */
+        .pass-strength { margin-top: 6px; }
+        .strength-bar { height: 4px; border-radius: 4px; background: var(--border); overflow: hidden; margin-bottom: 4px; }
+        .strength-fill { height: 100%; border-radius: 4px; transition: all .3s; width: 0; }
+        .strength-label { font-size: .72rem; font-weight: 700; color: var(--text-muted); }
+
+        .pass-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: .9rem; color: var(--text-muted); padding: 4px; }
+        .pass-toggle:hover { color: var(--green); }
+
+        .msg-box { display: none; padding: 12px 16px; border-radius: 12px; font-size: .85rem; font-weight: 700; margin-bottom: 16px; align-items: center; gap: 8px; }
+        .msg-box.error { display: flex; background: var(--red-light); border: 1px solid #fecaca; color: var(--red); }
+        .msg-box.success { display: flex; background: var(--green-light); border: 1px solid #bbf7d0; color: var(--green-dark); }
+
+        /* Agreement */
+        .agree-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+        .agree-check { width: 18px; height: 18px; accent-color: var(--green); margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+        .agree-text { font-size: .82rem; color: var(--text-muted); font-weight: 600; line-height: 1.4; }
+        .agree-text a { color: var(--green); text-decoration: none; font-weight: 700; }
+
+        .btn-submit { width: 100%; padding: 14px; background: var(--green); color: white; border: none; border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(34,197,94,.3); }
+        .btn-submit:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+
+        .switch-row { text-align: center; font-size: .88rem; color: var(--text-muted); font-weight: 600; }
+        .switch-link { color: var(--green); font-weight: 800; text-decoration: none; }
+        .switch-link:hover { color: var(--green-dark); text-decoration: underline; }
+
+        /* Benefits */
+        .benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+        .benefit { display: flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 700; color: var(--text-muted); }
+        .benefit-icon { width: 28px; height: 28px; background: var(--green-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; }
+
+        @media(max-width:480px) { .auth-card { padding: 32px 20px; } .form-row { grid-template-columns: 1fr; } .benefits { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <a href="login.html" class="header-link">← Кіру</a>
+</header>
+
+<main>
+    <div class="auth-card">
+        <div class="auth-top">
+            <div class="auth-icon">🚀</div>
+            <h1>Тіркелу</h1>
+            <p>Тегін аккаунт жасап, нәтижелеріңізді сақтаңыз</p>
+        </div>
+
+        <!-- Benefits -->
+        <div class="benefits">
+            <div class="benefit"><div class="benefit-icon">📊</div>Нәтижелер сақталады</div>
+            <div class="benefit"><div class="benefit-icon">🤖</div>AI талдауы</div>
+            <div class="benefit"><div class="benefit-icon">📈</div>Тарих қаралады</div>
+            <div class="benefit"><div class="benefit-icon">🎯</div>Мамандық кеңесі</div>
+        </div>
+
+        <div class="msg-box" id="msg-box">
+            <span id="msg-icon">⚠️</span>
+            <span id="msg-text"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Аты</label>
+                <div class="input-wrap">
+                    <span class="input-icon">👤</span>
+                    <input type="text" class="form-input" id="first_name" placeholder="Азиз">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Тегі</label>
+                <div class="input-wrap">
+                    <span class="input-icon">👤</span>
+                    <input type="text" class="form-input" id="last_name" placeholder="Сейіт">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input type="email" class="form-input" id="email" placeholder="example@mail.com">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Мектеп / Университет <span style="opacity:.5;font-size:.7rem">(міндетті емес)</span></label>
+            <div class="input-wrap">
+                <span class="input-icon">🏫</span>
+                <input type="text" class="form-input" id="school" placeholder="NIS Almaty, NU, KBTU...">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Құпиясөз</label>
+            <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" class="form-input" id="password" placeholder="Кем дегенде 6 таңба" oninput="checkStrength(this.value)">
+                <button class="pass-toggle" type="button" onclick="togglePass('password', this)">👁</button>
+            </div>
+            <div class="pass-strength">
+                <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                <div class="strength-label" id="strength-label"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Құпиясөзді растау</label>
+            <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" class="form-input" id="confirm" placeholder="Қайталаңыз">
+                <button class="pass-toggle" type="button" onclick="togglePass('confirm', this)">👁</button>
+            </div>
+        </div>
+
+        <div class="agree-row">
+            <input type="checkbox" class="agree-check" id="agree">
+            <label class="agree-text" for="agree">
+                <a href="#">Қолданушы келісімімен</a> және <a href="#">Жеке деректер саясатымен</a> танысып, келісемін
+            </label>
+        </div>
+
+        <button class="btn-submit" id="reg-btn" onclick="doRegister()">
+            <div class="spinner" id="spinner"></div>
+            <span id="btn-text">Тіркелу</span>
+        </button>
+
+        <div class="switch-row">
+            Аккаунт бар ма? <a href="login.html" class="switch-link">Кіру</a>
+        </div>
+    </div>
+</main>
+
+<script>
+const API = 'http://localhost:5000';
+
+function showMsg(text, type = 'error') {
+    const box = document.getElementById('msg-box');
+    box.className = 'msg-box ' + type;
+    document.getElementById('msg-icon').textContent = type === 'error' ? '⚠️' : '✅';
+    document.getElementById('msg-text').textContent = text;
+}
+
+function togglePass(id, btn) {
+    const inp = document.getElementById(id);
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+function checkStrength(val) {
+    const fill = document.getElementById('strength-fill');
+    const label = document.getElementById('strength-label');
+    let score = 0;
+    if (val.length >= 6) score++;
+    if (val.length >= 10) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const levels = [
+        { w: '0%', c: '#e2e8f0', t: '' },
+        { w: '25%', c: '#ef4444', t: '😟 Өте әлсіз' },
+        { w: '50%', c: '#f97316', t: '😐 Орташа' },
+        { w: '75%', c: '#eab308', t: '🙂 Жақсы' },
+        { w: '100%', c: '#22c55e', t: '💪 Күшті' },
+        { w: '100%', c: '#16a34a', t: '🔐 Өте күшті' },
+    ];
+    const l = levels[Math.min(score, 5)];
+    fill.style.width = l.w; fill.style.background = l.c;
+    label.textContent = l.t; label.style.color = l.c;
+}
+
+function setLoading(on) {
+    document.getElementById('spinner').style.display = on ? 'block' : 'none';
+    document.getElementById('btn-text').textContent = on ? 'Тіркелуде...' : 'Тіркелу';
+    document.getElementById('reg-btn').disabled = on;
+}
+
+async function doRegister() {
+    const first_name = document.getElementById('first_name').value.trim();
+    const last_name  = document.getElementById('last_name').value.trim();
+    const email      = document.getElementById('email').value.trim();
+    const school     = document.getElementById('school').value.trim();
+    const password   = document.getElementById('password').value;
+    const confirm    = document.getElementById('confirm').value;
+    const agreed     = document.getElementById('agree').checked;
+
+    if (!first_name || !last_name) { showMsg('Аты-жөніңізді толтырыңыз'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { showMsg('Дұрыс email енгізіңіз'); return; }
+    if (password.length < 6) { showMsg('Құпиясөз кем дегенде 6 таңба болуы керек'); return; }
+    if (password !== confirm) { showMsg('Құпиясөздер сәйкес келмеді'); return; }
+    if (!agreed) { showMsg('Келісімді растаңыз'); return; }
+
+    setLoading(true);
+    try {
+        const res = await fetch(`${API}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ first_name, last_name, email, school, password })
+        });
+        const data = await res.json();
+        if (!res.ok) { showMsg(data.error || 'Тіркелу мүмкін болмады'); setLoading(false); return; }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        showMsg('Сәтті тіркелдіңіз! Профильге бағытталуда...', 'success');
+        setTimeout(() => { window.location.href = 'profile.html'; }, 900);
+    } catch {
+        showMsg('Сервермен байланыс жоқ. Backend іске қосылған ба?');
+        setLoading(false);
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Болашағыңды таңда</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --green:#22c55e;--green-dark:#16a34a;--green-light:#f0fdf4;--green-mid:#dcfce7;
+            --bg:#ffffff;--bg2:#f8fafc;--text:#0f172a;--text-muted:#64748b;
+            --border:#e2e8f0;--card:#ffffff;--shadow:0 4px 24px rgba(0,0,0,0.06);
+            --shadow-hover:0 12px 40px rgba(0,0,0,0.1);
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,#e2e8f0 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0;opacity:.5;}
+        header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+        .logo{font-family:'Geologica',sans-serif;font-size:1.25rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+        .logo-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+        nav{display:flex;gap:4px;}
+        nav a{color:var(--text-muted);text-decoration:none;font-weight:600;font-size:.87rem;padding:8px 14px;border-radius:10px;transition:all .2s;}
+        nav a:hover,nav a.active{background:var(--green-light);color:var(--green-dark);}
+        .header-btns{display:flex;gap:8px;}
+        .btn{padding:9px 22px;border-radius:12px;font-weight:700;font-family:'Inter',sans-serif;font-size:.87rem;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+        .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text-muted);}
+        .btn-ghost:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
+        .btn-green{background:var(--green);color:#fff;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.35);}
+        .btn-green:hover{background:var(--green-dark);transform:translateY(-1px);}
+        .btn-green:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;}
+        .btn-outline-green{background:transparent;border:1.5px solid var(--green);color:var(--green);}
+        .btn-outline-green:hover{background:var(--green-light);}
+        .btn-outline-green:disabled{opacity:.3;cursor:not-allowed;}
+        main{position:relative;z-index:1;padding-top:88px;max-width:1080px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px;}
+        .hero{padding:64px 0 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+        @media(max-width:768px){.hero{grid-template-columns:1fr;padding:40px 0 32px;}}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-mid);border:1px solid #bbf7d0;border-radius:50px;padding:5px 14px 5px 8px;font-size:.75rem;font-weight:800;color:var(--green-dark);letter-spacing:.5px;text-transform:uppercase;margin-bottom:22px;}
+        .hero-badge-dot{width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+        .hero h1{font-family:'Geologica',sans-serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;line-height:1.12;margin-bottom:18px;letter-spacing:-1px;color:var(--text);}
+        .hero h1 em{font-style:normal;color:var(--green);}
+        .hero p{font-size:1rem;color:var(--text-muted);line-height:1.7;margin-bottom:30px;max-width:420px;}
+        .hero-stats{display:flex;gap:28px;}
+        .stat-num{font-family:'Geologica',sans-serif;font-size:1.3rem;font-weight:900;color:var(--green);}
+        .stat-label{font-size:.72rem;font-weight:700;color:var(--text-muted);margin-top:2px;}
+        .hero-visual{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:var(--shadow);position:relative;}
+        .vis-label{font-size:.7rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;}
+        .vis-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+        .vis-bar-name{font-size:.8rem;font-weight:700;color:var(--text);width:90px;flex-shrink:0;}
+        .vis-bar-track{flex:1;height:8px;background:var(--border);border-radius:10px;overflow:hidden;}
+        .vis-bar-fill{height:100%;background:var(--green);border-radius:10px;}
+        .vis-bar-pct{font-size:.75rem;font-weight:800;color:var(--green);width:36px;text-align:right;}
+        .vis-tag{position:absolute;top:-14px;right:20px;background:var(--green);color:white;font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:50px;letter-spacing:.5px;}
+        .steps-section{margin-bottom:44px;}
+        .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+        @media(max-width:640px){.steps-grid{grid-template-columns:1fr;}}
+        .step-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:all .25s;}
+        .step-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:#bbf7d0;}
+        .step-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#86efac);opacity:0;transition:opacity .25s;}
+        .step-card:hover::after{opacity:1;}
+        .step-icon-wrap{width:48px;height:48px;background:var(--green-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:16px;}
+        .step-num{font-size:.68rem;font-weight:800;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+        .step-card h3{font-family:'Geologica',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:8px;color:var(--text);}
+        .step-card p{font-size:.82rem;color:var(--text-muted);line-height:1.5;}
+        .quiz-wrap{background:white;border:1px solid var(--border);border-radius:28px;padding:44px;box-shadow:var(--shadow);}
+        @media(max-width:640px){.quiz-wrap{padding:24px 18px;}}
+        .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+        .progress-text{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;}
+        .page-badge{background:var(--green-light);color:var(--green-dark);font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:50px;font-family:'Geologica',sans-serif;}
+        .progress-track{width:100%;height:6px;background:var(--border);border-radius:10px;overflow:hidden;margin-bottom:44px;}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--green),#86efac);border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+        .question-block{margin-bottom:52px;padding-bottom:44px;border-bottom:1px solid #f1f5f9;animation:slideIn .35s ease both;}
+        .question-block:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+        @keyframes slideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+        .q-num{font-size:.68rem;font-weight:800;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;text-align:center;}
+        .q-text{font-size:1.1rem;font-weight:700;color:var(--text);text-align:center;margin-bottom:30px;line-height:1.5;}
+        .likert-row{display:flex;align-items:center;gap:12px;}
+        .scale-lbl{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;line-height:1.3;width:72px;}
+        .scale-lbl.left{color:#ef4444;text-align:right;}
+        .scale-lbl.right{color:var(--green);text-align:left;}
+        .circles{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;}
+        .c-btn{cursor:pointer;border-radius:50%;position:relative;transition:transform .15s;display:flex;align-items:center;justify-content:center;}
+        .c-btn input{display:none;}
+        .c-ring{border-radius:50%;border:2px solid transparent;background:transparent;transition:all .2s ease;display:block;}
+        .s3 .c-ring{width:50px;height:50px;}
+        .s2 .c-ring{width:38px;height:38px;}
+        .s1 .c-ring{width:28px;height:28px;}
+        .s0 .c-ring{width:34px;height:34px;}
+        .rd .c-ring{border-color:#fca5a5;background:#fff5f5;}
+        .rd:hover .c-ring{border-color:#ef4444;background:#fee2e2;transform:scale(1.1);}
+        .rd.picked .c-ring{border-color:#ef4444;background:#ef4444;transform:scale(1.1);box-shadow:0 0 14px rgba(239,68,68,.35);}
+        .gn .c-ring{border-color:#86efac;background:#f0fdf4;}
+        .gn:hover .c-ring{border-color:var(--green);background:#dcfce7;transform:scale(1.1);}
+        .gn.picked .c-ring{border-color:var(--green);background:var(--green);transform:scale(1.1);box-shadow:0 0 14px rgba(34,197,94,.35);}
+        .nt .c-ring{border-color:#cbd5e1;background:#f8fafc;}
+        .nt:hover .c-ring{border-color:#94a3b8;background:#f1f5f9;transform:scale(1.05);}
+        .nt.picked .c-ring{border-color:#64748b;background:#64748b;transform:scale(1.05);}
+        .ntip{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:.55rem;font-weight:800;color:#94a3b8;white-space:nowrap;letter-spacing:.3px;text-transform:uppercase;}
+        .divider-dot{width:4px;height:4px;border-radius:50%;background:#e2e8f0;}
+        .quiz-foot{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border);}
+        .foot-note{font-size:.75rem;color:var(--text-muted);display:flex;align-items:center;gap:5px;}
+        .alert{display:none;margin-top:14px;background:#fff5f5;border:1px solid #fecaca;border-radius:12px;padding:12px 18px;font-size:.83rem;font-weight:700;color:#dc2626;text-align:center;}
+        .alert.show{display:block;animation:slideIn .3s ease;}
+        .loader{text-align:center;padding:60px 0;color:var(--text-muted);}
+        .dots{display:inline-flex;gap:6px;margin-bottom:12px;}
+        .dots span{width:8px;height:8px;border-radius:50%;background:var(--green);animation:bop 1.2s infinite;}
+        .dots span:nth-child(2){animation-delay:.2s;}
+        .dots span:nth-child(3){animation-delay:.4s;}
+        @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
+        @media(max-width:600px){nav{display:none;}.hero-stats{gap:16px;}.s3 .c-ring{width:38px;height:38px;}.s2 .c-ring{width:30px;height:30px;}.s1 .c-ring{width:22px;height:22px;}.likert-row{flex-direction:column;gap:10px;}.scale-lbl{width:auto;text-align:center !important;}}
+        nav a.active{background:var(--green-light);color:var(--green-dark);font-weight:800;}
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <nav>
+        <a href="about.html">Тест туралы</a>
+        <a href="careers.html">Мамандықтар</a>
+        <a href="help.html">Көмек</a>
+    </nav>
+    <div class="header-btns" id="header-btns">
+        <button class="btn btn-ghost" onclick="location.href='login.html'">Кіру</button>
+        <button class="btn btn-green" onclick="location.href='register.html'">Тіркелу</button>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-badge"><div class="hero-badge-dot">✦</div>AI-мен жұмыс істейді</div>
+            <h1>Өз <em>мамандығыңды</em> дұрыс таңда</h1>
+            <p>Жасанды интеллект арқылы сенің қабілетіңді талдап, болашақ мансабыңды нақты анықтаймыз.</p>
+            <div class="hero-stats">
+                <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Сұрақ</div></div>
+                <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Мамандық</div></div>
+                <div class="stat"><div class="stat-num">AI</div><div class="stat-label">Талдау</div></div>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-visual">
+                <div class="vis-tag">✓ AI нәтиже</div>
+                <div class="vis-label">Мамандық сәйкестігі</div>
+                <div class="vis-bar-row"><div class="vis-bar-name">Software Eng.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:94%"></div></div><div class="vis-bar-pct">94%</div></div>
+                <div class="vis-bar-row"><div class="vis-bar-name">Data Scientist</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:87%"></div></div><div class="vis-bar-pct">87%</div></div>
+                <div class="vis-bar-row"><div class="vis-bar-name">UX Designer</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:72%"></div></div><div class="vis-bar-pct">72%</div></div>
+                <div class="vis-bar-row"><div class="vis-bar-name">Product Mgr.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:65%"></div></div><div class="vis-bar-pct">65%</div></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="steps-section">
+        <div class="steps-grid">
+            <div class="step-card"><div class="step-icon-wrap">📝</div><div class="step-num">1-қадам</div><h3>Тесттен өт</h3><p>7 балдық шкала бойынша сұрақтарға шынайы жауап бер</p></div>
+            <div class="step-card"><div class="step-icon-wrap">🤖</div><div class="step-num">2-қадам</div><h3>AI талдайды</h3><p>Жасанды интеллект жауаптарыңды талдап, профиль жасайды</p></div>
+            <div class="step-card"><div class="step-icon-wrap">🚀</div><div class="step-num">3-қадам</div><h3>Нәтижені ал</h3><p>Сенімді мамандықтар тізімі мен жол картасын жүктеп ал</p></div>
+        </div>
+    </div>
+
+    <div class="quiz-wrap">
+        <div class="progress-row">
+            <span class="progress-text">Прогресс</span>
+            <span class="page-badge" id="page-indicator">Бет 1 / 4</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
+        <div id="questions-container">
+            <div class="loader"><div class="dots"><span></span><span></span><span></span></div><div>Сұрақтар жүктелуде...</div></div>
+        </div>
+        <div class="alert" id="alert-box">⚠️ Барлық сұрақтарға жауап беріңіз!</div>
+        <div class="quiz-foot">
+            <button class="btn btn-outline-green" id="prev-btn" onclick="prevPage()" disabled>← Артқа</button>
+            <div class="foot-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Жауаптарыңыз құпия сақталады
+            </div>
+            <button class="btn btn-green" id="next-btn" onclick="nextPage()">Келесі →</button>
+        </div>
+    </div>
+</main>
+
+<script>
+const API = 'http://localhost:5000';
+let allQ = [], curPage = 0;
+const PER = 5;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Auth header
+    const token = localStorage.getItem('token');
+    const user  = JSON.parse(localStorage.getItem('user') || 'null');
+    if (token && user) {
+        const initials = ((user.first_name?.[0]||'')+(user.last_name?.[0]||'')).toUpperCase();
+        document.getElementById('header-btns').innerHTML = `
+            <button class="btn btn-ghost" onclick="location.href='profile.html'" style="gap:8px">
+                <span style="width:26px;height:26px;background:var(--green-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:.75rem">${initials}</span>
+                ${user.first_name}
+            </button>
+            <button class="btn btn-green" onclick="location.href='profile.html'">Профиль</button>`;
+    }
+    loadQ();
+});
+
+async function loadQ() {
+    try {
+        const r = await fetch(`${API}/api/questions`);
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        allQ = d.length ? d : mock();
+    } catch { allQ = mock(); }
+    render(); updateUI();
+}
+
+function mock() {
+    return ["Мен командамен жұмыс істегенді ұнатамын","Маған нақты есептерді шешу қызық","Шығармашылық жұмыс маған рахат береді","Жаңа адамдармен танысуды жақсы көремін","Аналитикалық ойлау — менің күшті жағым","Техникалық жабдықтармен жұмыс істеуді ұнатамын","Әдебиет пен өнер маған жақын","Басшылық ету рөлі маған сәйкес","Тәжірибелік жұмыс теориядан маңыздырақ","Ғылымды зерттеу — менің арманым","Адамдарға көмек беру — маған мәнді","Жоба жоспарлауды жақсы көремін","Деректермен жұмыс істеуді ұнатамын","Табиғат пен экология мені қызықтырады","Экономика мен бизнес маған жақын","Спорт пен физикалық белсенділік маңызды","Тарих пен мәдениетті зерттеуді ұнатамын","Заң мен қоғамдық тәртіп маңызды","Медицина мен денсаулық саласы маған қызық","Инновация мен стартап идеялары мені шабыттандырады"]
+        .map((t,i)=>({question_id:i+1,question_text:t}));
+}
+
+function render() {
+    const c = document.getElementById('questions-container');
+    c.innerHTML = '';
+    const start = curPage * PER;
+    allQ.slice(start, start + PER).forEach((q, idx) => {
+        const saved = localStorage.getItem(`q${q.question_id}`);
+        const div = document.createElement('div');
+        div.className = 'question-block';
+        div.style.animationDelay = `${idx*.06}s`;
+        div.innerHTML = `
+            <div class="q-num">Сұрақ ${start+idx+1}</div>
+            <div class="q-text">${q.question_text}</div>
+            <div class="likert-row">
+                <div class="scale-lbl left">Келіс&shy;пеймін</div>
+                <div class="circles" id="row-${q.question_id}">
+                    ${circ(q.question_id,-3,'rd','s3',saved)}
+                    ${circ(q.question_id,-2,'rd','s2',saved)}
+                    ${circ(q.question_id,-1,'rd','s1',saved)}
+                    <div class="divider-dot"></div>
+                    ${neutral(q.question_id,saved)}
+                    <div class="divider-dot"></div>
+                    ${circ(q.question_id,1,'gn','s1',saved)}
+                    ${circ(q.question_id,2,'gn','s2',saved)}
+                    ${circ(q.question_id,3,'gn','s3',saved)}
+                </div>
+                <div class="scale-lbl right">Келі&shy;семін</div>
+            </div>`;
+        c.appendChild(div);
+    });
+}
+
+function circ(id,val,col,sz,saved){
+    const p=saved==val?' picked':'';
+    return `<label class="c-btn ${col} ${sz}${p}" onclick="pick(${id},${val},this)"><input type="radio" name="q${id}" value="${val}"><span class="c-ring"></span></label>`;
+}
+function neutral(id,saved){
+    const p=saved==0?' picked':'';
+    return `<label class="c-btn nt s0${p}" onclick="pick(${id},0,this)" style="position:relative"><span class="ntip">Бейтарап</span><input type="radio" name="q${id}" value="0"><span class="c-ring"></span></label>`;
+}
+
+window.pick = function(id,val,el){
+    localStorage.setItem(`q${id}`,val);
+    document.getElementById(`row-${id}`).querySelectorAll('.c-btn').forEach(b=>b.classList.remove('picked'));
+    el.classList.add('picked');
+    document.getElementById('alert-box').classList.remove('show');
+};
+
+window.nextPage = function(){
+    const start=curPage*PER;
+    const batch=allQ.slice(start,start+PER);
+    if(!batch.every(q=>localStorage.getItem(`q${q.question_id}`)!==null)){
+        document.getElementById('alert-box').classList.add('show'); return;
+    }
+    const total=Math.ceil(allQ.length/PER);
+    if(curPage<total-1){curPage++;render();updateUI();window.scrollTo({top:0,behavior:'smooth'});}
+    else{window.location.href='results.html';}
+};
+window.prevPage=function(){
+    if(curPage>0){curPage--;render();updateUI();window.scrollTo({top:0,behavior:'smooth'});}
+};
+function updateUI(){
+    const total=Math.ceil(allQ.length/PER);
+    document.getElementById('page-indicator').textContent=`Бет ${curPage+1} / ${total}`;
+    document.getElementById('progress-bar').style.width=`${((curPage+1)/total)*100}%`;
+    document.getElementById('prev-btn').disabled=curPage===0;
+    document.getElementById('next-btn').textContent=curPage===total-1?'Нәтижені көру ✓':'Келесі →';
+}
+</script>
+</body>
+</html>

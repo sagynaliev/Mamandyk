@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Нәтижелер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --green-light: #f0fdf4;
+            --green-mid: #dcfce7;
+            --bg: #ffffff;
+            --bg2: #f8fafc;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 24px rgba(0,0,0,0.06);
+            --shadow-hover: 0 12px 40px rgba(0,0,0,0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg2);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0);
+            background-size: 32px 32px;
+            pointer-events: none; z-index: 0; opacity: 0.4;
+        }
+
+        header {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: 68px;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 0 #e2e8f0;
+        }
+        .logo { font-family: 'Geologica', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--green); display: flex; align-items: center; gap: 8px; }
+        .logo-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6} }
+
+        .btn { padding: 9px 20px; border-radius: 12px; font-weight: 700; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; border: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); }
+        .btn-ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+        .btn-green { background: var(--green); color: #fff; font-weight: 800; box-shadow: 0 4px 14px rgba(34,197,94,.3); }
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+        .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+        .done-head { text-align: center; margin-bottom: 52px; animation: up .5s ease both; }
+        @keyframes up { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+
+        .done-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--green-mid); border: 1px solid #bbf7d0; border-radius: 50px; padding: 5px 16px 5px 10px; font-size: 0.75rem; font-weight: 800; color: var(--green-dark); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 18px; }
+        .done-badge-icon { width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; color: white; }
+        .done-head h1 { font-family: 'Geologica', sans-serif; font-size: clamp(1.5rem,3.5vw,2.6rem); font-weight: 900; margin-bottom: 10px; letter-spacing: -.5px; }
+        .done-head h1 em { font-style: normal; color: var(--green); }
+        .done-head p { color: var(--text-muted); font-size: .98rem; }
+
+        .grid { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+        @media(max-width:900px){ .grid{ grid-template-columns:1fr; } }
+
+        .card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 28px; box-shadow: var(--shadow); animation: up .5s ease both; }
+
+        .sec-title { font-family: 'Geologica', sans-serif; font-size: .72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+        .sec-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+
+        .bar-item { margin-bottom: 20px; }
+        .bar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+        .bar-left-lbl { font-size: .82rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
+        .bar-pct { font-size: .72rem; font-weight: 800; color: var(--green); background: var(--green-light); padding: 2px 8px; border-radius: 20px; }
+        .bar-right-lbl { font-size: .75rem; color: var(--text-muted); font-weight: 600; }
+        .bar-track { height: 8px; background: var(--border); border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--green-dark), var(--green)); transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+        .insight { margin-top: 22px; background: linear-gradient(135deg, var(--green-light), #fff); border: 1px solid #bbf7d0; border-radius: 16px; padding: 18px; }
+        .insight-lbl { font-size: .63rem; font-weight: 800; color: var(--green-dark); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
+        .insight-text { font-size: .88rem; color: var(--text); line-height: 1.65; }
+
+        .career-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 18px; position: relative; overflow: hidden; transition: all .25s; animation: up .5s ease both; }
+        .career-card:nth-child(1){ animation-delay:.1s }
+        .career-card:nth-child(2){ animation-delay:.22s }
+        .career-card:nth-child(3){ animation-delay:.34s }
+        .career-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: linear-gradient(180deg, var(--green-dark), var(--green)); }
+        .career-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-hover); border-color:#bbf7d0; }
+
+        .cc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+        .cc-title { font-family:'Geologica',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:8px; }
+        .cc-pill { display:inline-flex; align-items:center; gap:5px; background: var(--green-mid); border:1px solid #bbf7d0; color: var(--green-dark); font-size:.7rem; font-weight:800; padding:3px 11px; border-radius:50px; }
+
+        .score-donut { width:56px; height:56px; flex-shrink:0; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; }
+        .score-inner { width:42px; height:42px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 0 2px var(--border); }
+        .score-num { font-family:'Geologica',sans-serif; font-size:.72rem; font-weight:900; color:var(--green); }
+
+        .verdict-box { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:14px; }
+        .verdict-tag { font-size:.6rem; font-weight:800; color:#6366f1; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:5px; display:flex; align-items:center; gap:4px; }
+        .verdict-text { font-size:.86rem; color:var(--text); line-height:1.55; }
+
+        .stats-row { display:flex; gap:12px; }
+        .stat-chip { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:10px 14px; flex:1; font-size:.73rem; font-weight:700; color:var(--text-muted); }
+        .stat-chip strong { display:block; color:var(--text); font-size:.84rem; margin-top:2px; }
+
+        .cta-wrap { background:linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); border-radius:20px; padding:32px; text-align:center; margin-top:8px; color:white; box-shadow:0 12px 40px rgba(34,197,94,.22); }
+        .cta-wrap h3 { font-family:'Geologica',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:8px; }
+        .cta-wrap p { font-size:.87rem; opacity:.88; margin-bottom:20px; line-height:1.5; }
+        .btn-white { background:white; color:var(--green-dark); padding:10px 24px; border-radius:12px; font-weight:800; font-family:'Inter',sans-serif; border:none; cursor:pointer; font-size:.87rem; transition:transform .2s; }
+        .btn-white:hover { transform:translateY(-2px); }
+
+        .loader { text-align:center; padding:50px 0; color:var(--text-muted); }
+        .dots { display:inline-flex; gap:6px; margin-bottom:12px; }
+        .dots span { width:8px; height:8px; border-radius:50%; background:var(--green); animation:bop 1.2s infinite; }
+        .dots span:nth-child(2){animation-delay:.2s} .dots span:nth-child(3){animation-delay:.4s}
+        @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
+
+        @media print { body{background:white;} header{position:static;} .cta-wrap{display:none;} }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><div class="logo-dot"></div>Mamandyk</div>
+    <div style="display:flex;gap:8px;" id="results-header-btns">
+        <button class="btn btn-ghost" onclick="window.location.href='index.html'">← Тестке оралу</button>
+        <button class="btn btn-green" onclick="window.print()">📥 PDF жүктеу</button>
+    </div>
+</header>
+<script>
+// Show profile button if logged in
+(function(){
+    const u = JSON.parse(localStorage.getItem('user')||'null');
+    if(u){
+        const init = ((u.first_name?.[0]||'')+(u.last_name?.[0]||'')).toUpperCase();
+        const extra = document.createElement('button');
+        extra.className = 'btn btn-ghost';
+        extra.style = 'gap:8px';
+        extra.onclick = () => window.location.href='profile.html';
+        extra.innerHTML = `<span style="width:24px;height:24px;background:#dcfce7;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#16a34a;font-size:.7rem">${init}</span> Профиль`;
+        document.getElementById('results-header-btns').prepend(extra);
+    }
+})();
+</script>
+
+<div class="wrap">
+    <div class="done-head">
+        <div class="done-badge">
+            <div class="done-badge-icon">✓</div>
+            Тест аяқталды
+        </div>
+        <h1>Сіздің кәсіби <em>профиліңіз</em> дайын</h1>
+        <p>Жасанды интеллект талдауы негізіндегі нәтижелер</p>
+    </div>
+
+    <div class="grid">
+        <div>
+            <div class="card">
+                <div class="sec-title"><div class="sec-icon">🧠</div>Тұлғалық ерекшеліктер</div>
+                <div id="personality-container">
+                    <div class="loader"><div class="dots"><span></span><span></span><span></span></div><div>Талдануда...</div></div>
+                </div>
+                <div class="insight">
+                    <div class="insight-lbl">💡 AI Инсайт</div>
+                    <div class="insight-text" id="ai-insight">Деректер талдануда...</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="sec-title" style="padding-left:4px;margin-bottom:16px;"><div class="sec-icon">🎯</div>Сізге сәйкес мамандықтар</div>
+            <div id="careers-container">
+                <div class="loader"><div class="dots"><span></span><span></span><span></span></div><div>Мамандықтар іздестірілуде...</div></div>
+            </div>
+            <div class="cta-wrap">
+                <h3>Дамуға дайынсыз ба?</h3>
+                <p>Таңдалған мамандық бойынша нақты оқу жолдары мен ресурстарды табыңыз</p>
+                <button class="btn-white">🗺 Жол картасын ашу</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function loadResults() {
+    const answers = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k?.startsWith('q')) answers[k] = localStorage.getItem(k);
+    }
+
+    const token = localStorage.getItem('token');
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    try {
+        const res = await fetch('http://localhost:5000/api/get-ai-verdict', {
+            method:'POST', headers,
+            body: JSON.stringify({ answers })
+        });
+        if (!res.ok) throw new Error();
+        const d = await res.json();
+        // Save careers to localStorage for careers.html page
+        if (d.careers) localStorage.setItem('lastCareers', JSON.stringify(d.careers));
+        renderPersonality(d.personality || demoP());
+        document.getElementById('ai-insight').textContent = d.insight || '';
+        renderCareers(d.careers || demoC());
+    } catch {
+        setTimeout(() => {
+            renderPersonality(demoP());
+            document.getElementById('ai-insight').textContent = 'Сіздің жауаптарыңыз аналитикалық қабілеттіліктің жоғары деңгейін көрсетеді. Командада жұмыс істеуге бейімсіз, сонымен бірге өз бетіңізше шешім қабылдай аласыз. Техникалық салаларда керемет нәтижеге жетуіңіз мүмкін.';
+            renderCareers(demoC());
+        }, 1800);
+    }
+}
+
+function demoP() {
+    return [
+        { left:"Аналитика",   leftVal:72, right:"Шығармашылық", rightVal:28 },
+        { left:"Интроверт",   leftVal:45, right:"Экстраверт",   rightVal:55 },
+        { left:"Теория",      leftVal:38, right:"Тәжірибе",     rightVal:62 },
+        { left:"Тұрақтылық",  leftVal:68, right:"Икемділік",    rightVal:32 },
+    ];
+}
+function demoC() {
+    return [
+        { title:"Software Engineer", score:94, verdict:"Логикалық ойлауыңыз бен техникаға деген қызығушылығыңыз бағдарламалауда керемет нәтиже береді.", salary:"500k – 1.5M ₸", growth:"Өте жоғары" },
+        { title:"Data Scientist",    score:87, verdict:"Деректермен жұмыс істеп, тренд анализдеу — сіздің аналитикалық санаңызға сай мамандық.", salary:"600k – 1.8M ₸", growth:"Жоғары" },
+        { title:"Product Manager",   score:79, verdict:"Командада жұмыс істеу қабілетіңіз бен стратегиялық ойлауыңыз өнімді басқаруда тиімді.", salary:"400k – 1.2M ₸", growth:"Жоғары" },
+    ];
+}
+
+function renderPersonality(data) {
+    document.getElementById('personality-container').innerHTML = data.map(d => `
+        <div class="bar-item">
+            <div class="bar-head">
+                <div class="bar-left-lbl">${d.left} <span class="bar-pct">${d.leftVal}%</span></div>
+                <div class="bar-right-lbl">${d.right} ${d.rightVal}%</div>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${d.leftVal}%"></div></div>
+        </div>`).join('');
+}
+
+function renderCareers(careers) {
+    document.getElementById('careers-container').innerHTML = careers.map((job, i) => {
+        const deg = `${job.score * 3.6}deg`;
+        return `
+        <div class="career-card">
+            <div class="cc-top">
+                <div>
+                    <div class="cc-title">${job.title}</div>
+                    <div class="cc-pill">✓ ${job.score}% Сәйкестік</div>
+                </div>
+                <div class="score-donut" style="background: conic-gradient(#22c55e ${deg}, #e2e8f0 0)">
+                    <div class="score-inner"><span class="score-num">${job.score}</span></div>
+                </div>
+            </div>
+            <div class="verdict-box">
+                <div class="verdict-tag">🤖 AI Verdict</div>
+                <div class="verdict-text">${job.verdict}</div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-chip">💰 Жалақы<strong>${job.salary}</strong></div>
+                <div class="stat-chip">📈 Сұраныс<strong>${job.growth}</strong></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', loadResults);
+</script>
+</body>
+</html>

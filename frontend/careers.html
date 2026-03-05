@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamandyk — Мамандықтар</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--green:#22c55e;--green-dark:#16a34a;--green-light:#f0fdf4;--green-mid:#dcfce7;--bg:#f8fafc;--white:#fff;--text:#0f172a;--text-muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(0,0,0,.06);--shadow-hover:0 12px 40px rgba(0,0,0,.1);}
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,#e2e8f0 1px,transparent 0);background-size:32px 32px;pointer-events:none;z-index:0;opacity:.4;}
+        header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+        .logo{font-family:'Geologica',sans-serif;font-size:1.25rem;font-weight:900;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+        .logo-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4);opacity:.6}}
+        nav{display:flex;gap:4px;}
+        nav a{color:var(--text-muted);text-decoration:none;font-weight:600;font-size:.87rem;padding:8px 14px;border-radius:10px;transition:all .2s;}
+        nav a:hover,nav a.active{background:var(--green-light);color:var(--green-dark);}
+        .header-btns{display:flex;gap:8px;}
+        .btn{padding:9px 22px;border-radius:12px;font-weight:700;font-family:'Inter',sans-serif;font-size:.87rem;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+        .btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text-muted);}
+        .btn-ghost:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
+        .btn-green{background:var(--green);color:#fff;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.3);}
+        .btn-green:hover{background:var(--green-dark);transform:translateY(-1px);}
+        main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:60px 24px 80px;}
+        @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        .page-hero{text-align:center;margin-bottom:48px;animation:up .4s ease;}
+        .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-mid);border:1px solid #bbf7d0;border-radius:50px;padding:5px 14px;font-size:.72rem;font-weight:800;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px;}
+        h1{font-family:'Geologica',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.15;margin-bottom:14px;letter-spacing:-1px;}
+        h1 em{font-style:normal;color:var(--green);}
+        .subtitle{font-size:.95rem;color:var(--text-muted);line-height:1.7;max-width:520px;margin:0 auto 28px;}
+        /* no-test state */
+        .no-test{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:60px 40px;text-align:center;box-shadow:var(--shadow);}
+        .no-test-icon{font-size:3.5rem;margin-bottom:20px;}
+        .no-test h2{font-family:'Geologica',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;}
+        .no-test p{color:var(--text-muted);font-size:.9rem;line-height:1.6;max-width:400px;margin:0 auto 24px;}
+        /* career cards */
+        .careers-grid{display:grid;gap:20px;}
+        .career-card{background:var(--white);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);transition:all .25s;cursor:pointer;animation:up .4s ease both;position:relative;}
+        .career-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);border-color:#bbf7d0;}
+        .career-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--green-dark),var(--green));}
+        .card-head{display:flex;align-items:flex-start;justify-content:space-between;padding:28px 28px 20px 36px;gap:16px;}
+        .card-title-wrap{}
+        .card-num{font-size:.65rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+        .card-title{font-family:'Geologica',sans-serif;font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:8px;}
+        .card-verdict{font-size:.85rem;color:var(--text-muted);line-height:1.5;max-width:500px;}
+        .card-score-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+        .score-donut{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Geologica',sans-serif;font-size:1rem;font-weight:900;color:var(--green-dark);border:4px solid var(--green-mid);background:var(--green-light);position:relative;}
+        .score-label{font-size:.65rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;}
+        .card-meta{display:flex;gap:12px;padding:0 28px 20px 36px;flex-wrap:wrap;}
+        .meta-chip{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.75rem;font-weight:700;color:var(--text-muted);}
+        .meta-chip strong{color:var(--text);}
+        .card-actions{padding:0 28px 24px 36px;display:flex;gap:10px;}
+        /* ROADMAP MODAL */
+        .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:200;overflow-y:auto;padding:20px;}
+        .modal-bg.open{display:flex;align-items:flex-start;justify-content:center;}
+        .modal{background:var(--white);border-radius:28px;padding:0;width:100%;max-width:680px;box-shadow:0 24px 80px rgba(0,0,0,.18);animation:up .35s ease;overflow:hidden;margin:auto;}
+        .modal-head{background:linear-gradient(135deg,var(--green-dark),var(--green));padding:32px 36px 28px;color:white;position:relative;}
+        .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.2);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+        .modal-close:hover{background:rgba(255,255,255,.3);}
+        .modal-career-title{font-family:'Geologica',sans-serif;font-size:1.3rem;font-weight:900;margin-bottom:6px;}
+        .modal-career-sub{font-size:.85rem;opacity:.85;line-height:1.5;}
+        .modal-body{padding:32px 36px;}
+        .roadmap-loading{text-align:center;padding:40px;}
+        .dots{display:inline-flex;gap:6px;margin-bottom:12px;}
+        .dots span{width:8px;height:8px;border-radius:50%;background:var(--green);animation:bop 1.2s infinite;}
+        .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+        @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
+        .roadmap-step{display:flex;gap:16px;margin-bottom:24px;animation:up .3s ease both;}
+        .roadmap-step:last-child{margin-bottom:0;}
+        .step-line{display:flex;flex-direction:column;align-items:center;gap:0;}
+        .step-circle{width:36px;height:36px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Geologica',sans-serif;font-weight:900;font-size:.75rem;flex-shrink:0;}
+        .step-connector{width:2px;flex:1;background:linear-gradient(180deg,var(--green),var(--green-mid));min-height:20px;margin:4px 0;}
+        .roadmap-step:last-child .step-connector{display:none;}
+        .step-content{padding-top:4px;flex:1;}
+        .step-title{font-family:'Geologica',sans-serif;font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+        .step-desc{font-size:.85rem;color:var(--text-muted);line-height:1.65;}
+        .step-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+        .tag{background:var(--green-light);border:1px solid #bbf7d0;color:var(--green-dark);font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:50px;}
+        .roadmap-error{background:#fff5f5;border:1px solid #fecaca;border-radius:12px;padding:16px;color:#dc2626;font-size:.85rem;text-align:center;}
+        @media(max-width:600px){nav{display:none;}.card-head{flex-direction:column;}.card-meta{gap:8px;}}
+    </style>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
+    <nav>
+        <a href="about.html">Тест туралы</a>
+        <a href="careers.html" class="active">Мамандықтар</a>
+        <a href="help.html">Көмек</a>
+    </nav>
+    <div class="header-btns" id="header-btns">
+        <button class="btn btn-ghost" onclick="location.href='login.html'">Кіру</button>
+        <button class="btn btn-green" onclick="location.href='register.html'">Тіркелу</button>
+    </div>
+</header>
+
+<main>
+    <div class="page-hero">
+        <div class="page-badge">🎯 Мамандықтар</div>
+        <h1>Сенің <em>ұсынылған</em> мамандықтарың</h1>
+        <p class="subtitle" id="careers-subtitle">Тест нәтижесіне негізделген мамандықтарың. Кез келгенін басып AI roadmap ал.</p>
+    </div>
+
+    <div id="careers-container">
+        <div style="text-align:center;padding:60px;color:var(--text-muted);">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div>Жүктелуде...</div>
+        </div>
+    </div>
+</main>
+
+<!-- ROADMAP MODAL -->
+<div class="modal-bg" id="modal">
+    <div class="modal">
+        <div class="modal-head">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-career-title" id="modal-title">—</div>
+            <div class="modal-career-sub" id="modal-sub">AI жол картасы жүктелуде...</div>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="roadmap-loading">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <div style="color:var(--text-muted);font-size:.88rem;margin-top:8px">AI жол картасын жасауда...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = 'http://localhost:5000';
+
+// ── Auth header ─────────────────────────────────────────
+const user = JSON.parse(localStorage.getItem('user')||'null');
+if (user) {
+    const init = ((user.first_name?.[0]||'')+(user.last_name?.[0]||'')).toUpperCase();
+    document.getElementById('header-btns').innerHTML = `
+        <button class="btn btn-ghost" onclick="location.href='profile.html'" style="gap:8px">
+            <span style="width:26px;height:26px;background:var(--green-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:.75rem">${init}</span>
+            ${user.first_name}
+        </button>
+        <button class="btn btn-green" onclick="location.href='profile.html'">Профиль</button>`;
+}
+
+// ── Load careers ────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', loadCareers);
+
+let allCareers = [];
+
+async function loadCareers() {
+    const token = localStorage.getItem('token');
+    const c = document.getElementById('careers-container');
+
+    // Try to get from latest test result (DB)
+    if (token) {
+        try {
+            const res = await fetch(`${API}/api/results/my`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const results = await res.json();
+                if (results.length > 0) {
+                    allCareers = results[0].careers || [];
+                    const name = user?.first_name || '';
+                    document.getElementById('careers-subtitle').textContent =
+                        `${name ? name + ', с' : 'С'}енің соңғы тест нәтижесіне негізделген мамандықтар. Кез келгенін басып AI roadmap ал.`;
+                    renderCareers(allCareers);
+                    return;
+                }
+            }
+        } catch(e) {}
+    }
+
+    // Try localStorage (last test)
+    const stored = localStorage.getItem('lastCareers');
+    if (stored) {
+        try {
+            allCareers = JSON.parse(stored);
+            renderCareers(allCareers);
+            return;
+        } catch(e) {}
+    }
+
+    // No test yet
+    renderNoTest(!!token);
+}
+
+function renderNoTest(isLoggedIn) {
+    document.getElementById('careers-container').innerHTML = `
+        <div class="no-test">
+            <div class="no-test-icon">📋</div>
+            <h2>Тест нәтижесі жоқ</h2>
+            <p>Мамандықтарды көру үшін алдымен тестті тапсыру керек. ${!isLoggedIn ? 'Тіркеліп нәтижелеріңді сақта.' : ''}</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-green" onclick="location.href='index.html'" style="padding:12px 28px">🚀 Тест тапсыру</button>
+                ${!isLoggedIn ? `<button class="btn btn-ghost" onclick="location.href='register.html'" style="padding:12px 28px">Тіркелу</button>` : ''}
+            </div>
+        </div>`;
+}
+
+function renderCareers(careers) {
+    const c = document.getElementById('careers-container');
+    if (!careers.length) { renderNoTest(true); return; }
+    c.innerHTML = `<div class="careers-grid">${careers.map((career, i) => buildCard(career, i)).join('')}</div>`;
+}
+
+function buildCard(career, i) {
+    const score = career.score || 0;
+    const delay = i * 0.08;
+    return `
+    <div class="career-card" style="animation-delay:${delay}s">
+        <div class="card-head">
+            <div class="card-title-wrap">
+                <div class="card-num">#${i+1} Ұсынылған мамандық</div>
+                <div class="card-title">${career.title}</div>
+                <div class="card-verdict">${career.verdict || ''}</div>
+            </div>
+            <div class="card-score-wrap">
+                <div class="score-donut">${score}%</div>
+                <div class="score-label">Сәйкес</div>
+            </div>
+        </div>
+        <div class="card-meta">
+            ${career.salary ? `<div class="meta-chip">💰 <strong>${career.salary}</strong></div>` : ''}
+            ${career.growth ? `<div class="meta-chip">📈 <strong>${career.growth}</strong></div>` : ''}
+            <div class="meta-chip">🎯 <strong>${score}% сәйкестік</strong></div>
+        </div>
+        <div class="card-actions">
+            <button class="btn btn-green" style="padding:10px 20px;font-size:.83rem" onclick="openRoadmap('${career.title.replace(/'/g,"\\'")}', '${(career.verdict||'').replace(/'/g,"\\'")}')">
+                🗺️ AI Roadmap алу
+            </button>
+            <button class="btn btn-ghost" style="padding:10px 20px;font-size:.83rem" onclick="location.href='index.html'">
+                ← Тестке оралу
+            </button>
+        </div>
+    </div>`;
+}
+
+// ── Roadmap modal ───────────────────────────────────────
+async function openRoadmap(title, verdict) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-sub').textContent = 'AI жол картасын жасауда...';
+    document.getElementById('modal-body').innerHTML = `
+        <div class="roadmap-loading">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div style="color:var(--text-muted);font-size:.88rem;margin-top:8px">Gemini AI жол картасын жасауда...</div>
+        </div>`;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    try {
+        const res = await fetch(`${API}/api/roadmap`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ career: title, verdict })
+        });
+        const data = await res.json();
+        renderRoadmap(data);
+    } catch(e) {
+        document.getElementById('modal-body').innerHTML = `
+            <div class="roadmap-error">⚠️ Жол картасын жүктеу мүмкін болмады. Backend іске қосылған ба?</div>`;
+    }
+}
+
+function renderRoadmap(data) {
+    const steps = data.steps || [];
+    document.getElementById('modal-sub').textContent = data.summary || '';
+    document.getElementById('modal-body').innerHTML = steps.length
+        ? steps.map((s, i) => `
+            <div class="roadmap-step" style="animation-delay:${i*.08}s">
+                <div class="step-line">
+                    <div class="step-circle">${i+1}</div>
+                    <div class="step-connector"></div>
+                </div>
+                <div class="step-content">
+                    <div class="step-title">${s.title}</div>
+                    <div class="step-desc">${s.description}</div>
+                    ${s.skills?.length ? `<div class="step-tags">${s.skills.map(sk=>`<span class="tag">${sk}</span>`).join('')}</div>` : ''}
+                </div>
+            </div>`).join('')
+        : `<div class="roadmap-error">Деректер жоқ.</div>`;
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
