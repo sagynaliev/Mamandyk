@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 const path    = require('path');
+const jwt     = require('jsonwebtoken');
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -30,16 +31,21 @@ const studentRouter = require('./routes/student');
 app.use('/api/questions', studentRouter);   // GET  /api/questions
 app.use('/api/test',      studentRouter);   // POST /api/test/verdict
 app.use('/api/results',   studentRouter);   // GET  /api/results/my  |  /api/results/:id
-// roadmap: student router-дің /roadmap endpoint-іне тікелей бағыттау
-app.post('/api/roadmap', (req, res, next) => { req.url = '/roadmap'; studentRouter(req, res, next); });
 
-// Legacy alias — results.html /api/get-ai-verdict → /api/test/verdict
+// roadmap: student router-дің /roadmap endpoint-іне тікелей бағыттау
+app.post('/api/roadmap', (req, res, next) => { 
+  req.url = '/roadmap'; 
+  studentRouter(req, res, next); 
+});
+
+// ── Legacy alias ──────────────────────────────────────
 const { askGroq, parseJSON, fallbackVerdict } = require('./services/groq');
-const jwt = require('jsonwebtoken');
+
 app.post('/api/get-ai-verdict', async (req, res) => {
   const { answers } = req.body;
   if (!answers || !Object.keys(answers).length)
     return res.status(400).json({ error: 'Жауаптар жоқ' });
+  
   let result = null;
   try {
     const prompt = `Пайдаланушының кәсіби бейімділік тесті жауаптары: ${JSON.stringify(answers)}
@@ -47,7 +53,10 @@ app.post('/api/get-ai-verdict', async (req, res) => {
 {"insight":"2-3 сөйлем қазақша","personality":[{"left":"Аналитика","leftVal":70,"right":"Шығармашылық","rightVal":30},{"left":"Интроверт","leftVal":40,"right":"Экстраверт","rightVal":60},{"left":"Теория","leftVal":55,"right":"Тәжірибе","rightVal":45},{"left":"Тұрақтылық","leftVal":65,"right":"Икемділік","rightVal":35}],"careers":[{"title":"...","score":95,"verdict":"...","salary":"...₸","growth":"..."}]}
 3-5 мамандық, score кему ретінде, барлығы қазақша.`;
     result = parseJSON(await askGroq(prompt));
-  } catch { result = fallbackVerdict(); }
+  } catch { 
+    result = fallbackVerdict(); 
+  }
+  
   // Save to DB if token present
   const h = req.headers.authorization;
   if (h?.startsWith('Bearer ')) {
@@ -74,14 +83,13 @@ const aiRouter = require('./routes/ai');
 app.use('/api/simulator', aiRouter);   // POST /api/simulator/tasks
 
 
-
-// ── 404 ──────────────────────────────────────────────
-app.use('/api/{*path}', (req, res) => {
+// ── 404 API Қателерін ұстау (ӨЗГЕРТІЛГЕН ЖЕР) ─────────
+app.use('/api', (req, res) => {
   res.status(404).json({ error: `Endpoint табылмады: ${req.method} ${req.path}` });
 });
 
-// ── Frontend catch-all ────────────────────────────────
-app.get('*', (req, res) => {
+// ── Frontend catch-all (ӨЗГЕРТІЛГЕН ЖЕР) ──────────────
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
