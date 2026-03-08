@@ -257,7 +257,7 @@ const APP_CONFIG = {
 (async function() {
   })();
 
-const API = window.APP_CONFIG ? APP_CONFIG.API_BASE : 'http://localhost:5000';
+const API = window.APP_CONFIG ? APP_CONFIG.API_BASE : '';
 
 function showMsg(text, type = 'error') {
     const box = document.getElementById('msg-box');
