@@ -80,6 +80,11 @@ app.use('/api/{*path}', (req, res) => {
   res.status(404).json({ error: `Endpoint табылмады: ${req.method} ${req.path}` });
 });
 
+// ── Frontend catch-all ────────────────────────────────
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
 // ── Start ─────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`\n🚀 Mamandyk — http://localhost:${PORT}`);
