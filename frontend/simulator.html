@@ -145,7 +145,7 @@ h1 em{font-style:normal;color:var(--green);}
 <script>
 const APP_CONFIG = {
   API_BASE: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:5000' : ''
+    ? '' : ''
 };
 </script>
 </head>
@@ -179,7 +179,7 @@ const APP_CONFIG = {
 (async function() {
   })();
 
-const API = window.APP_CONFIG ? APP_CONFIG.API_BASE : 'http://localhost:5000';
+const API = window.APP_CONFIG ? APP_CONFIG.API_BASE : '';
 const _token = localStorage.getItem('mamandyk_token') || localStorage.getItem('token');
 let lastCareers = JSON.parse(localStorage.getItem('lastCareers') || '[]');
 
