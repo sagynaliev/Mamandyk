@@ -10,7 +10,7 @@
 const APP_CONFIG = {
   // Change this to your production URL when deploying
   API_BASE: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000'
+    ? ''
     : '',   // same-origin in production
   STORAGE_KEYS: {
     TOKEN:    'mamandyk_token',
