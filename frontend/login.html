@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="kk" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mamandyk — Кіру</title>
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --green: #22c55e;
@@ -190,13 +190,74 @@
         @media(max-width:480px) {
             .auth-card { padding: 32px 24px; border-radius: 20px; }
         }
+    
+    /* ── Shared Header ── */
+    #app-header {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+      gap: 16px;
+    }
+    .h-logo {
+      font-family: 'Geologica', sans-serif;
+      font-size: 1.15rem; font-weight: 900;
+      color: var(--green); text-decoration: none;
+      display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    }
+    .h-logo-dot {
+      width: 8px; height: 8px; background: var(--green);
+      border-radius: 50%; animation: hpulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes hpulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5);opacity:.6} }
+    .h-nav { display: flex; gap: 2px; }
+    .h-nav a {
+      color: var(--text-muted, #64748b); text-decoration: none;
+      font-weight: 600; font-size: .85rem;
+      padding: 7px 12px; border-radius: 9px; transition: all .2s; white-space: nowrap;
+    }
+    .h-nav a:hover, .h-nav a.active {
+      background: var(--green-light, #f0fdf4); color: var(--green-dark, #16a34a);
+    }
+    .h-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .h-btn {
+      padding: 7px 16px; border-radius: 10px; font-weight: 700;
+      font-family: 'Inter', sans-serif; font-size: .82rem;
+      cursor: pointer; transition: all .2s; border: none;
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .h-btn-ghost {
+      background: transparent; border: 1.5px solid var(--border, #e2e8f0);
+      color: var(--text-muted, #64748b);
+    }
+    .h-btn-ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .h-btn-green { background: var(--green); color: #fff; box-shadow: 0 3px 10px rgba(34,197,94,.3); }
+    .h-btn-green:hover { background: var(--green-dark); }
+    .h-avatar {
+      width: 28px; height: 28px; background: var(--green-mid, #dcfce7);
+      color: var(--green-dark, #16a34a); border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .68rem;
+    }
+    @media (max-width: 768px) { .h-nav { display: none; } #app-header { padding: 0 16px; } }
+
     </style>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+const APP_CONFIG = {
+  API_BASE: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000' : ''
+};
+</script>
 </head>
 <body>
 
-<header>
-    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
-    <a href="register.html" class="header-link">Тіркелу →</a>
+<header id="app-header">
+  <a href="index.html" class="h-logo"><span class="h-logo-dot"></span>Mamandyk</a>
+  <div class="h-right"></div>
 </header>
 
 <main>
@@ -241,15 +302,16 @@
         <div class="switch-row">
             Аккаунт жоқ па? <a href="register.html" class="switch-link">Тіркелу</a>
         </div>
-
-        <div class="demo-box">
-            💡 <div><strong>Demo кіру:</strong> Егер тіркелмеген болсаңыз, алдымен <a href="register.html" style="color:#92400e">тіркелу</a> бетіне өтіңіз.</div>
-        </div>
     </div>
 </main>
 
 <script>
-const API = 'http://localhost:5000';
+
+// Initialize shared header + i18n
+(async function() {
+  })();
+
+const API = APP_CONFIG.API_BASE;
 
 function showMsg(text, type = 'error') {
     const box = document.getElementById('msg-box');
@@ -297,11 +359,14 @@ async function doLogin() {
         if (!res.ok) { showMsg(data.error || 'Кіру мүмкін болмады'); setLoading(false); return; }
 
         // Token + user сақтау
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('mamandyk_token', data.token);
+        localStorage.setItem('mamandyk_user', JSON.stringify(data.user));
 
         showMsg('Сәтті кірдіңіз! Бағытталуда...', 'success');
-        setTimeout(() => { window.location.href = 'profile.html'; }, 800);
+        const role = data.user?.role;
+        const redirect = role === 'admin' ? 'admin.html' : role === 'manager' ? 'manager.html' : 'profile.html';
+        setTimeout(() => {            window.location.href = redirect;
+        }, 800);
     } catch (err) {
         showMsg('Сервермен байланыс жоқ. Backend іске қосылған ба?');
         setLoading(false);

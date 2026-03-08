@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mamandyk — Нәтижелер</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     
     <style>
         :root {
@@ -123,31 +123,82 @@
         @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
 
         @media print { body{background:white;} header{position:static;} .cta-wrap{display:none;} }
+    
+    /* ── Shared Header ── */
+    #app-header {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+      gap: 16px;
+    }
+    .h-logo {
+      font-family: 'Geologica', sans-serif;
+      font-size: 1.15rem; font-weight: 900;
+      color: var(--green); text-decoration: none;
+      display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    }
+    .h-logo-dot {
+      width: 8px; height: 8px; background: var(--green);
+      border-radius: 50%; animation: hpulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes hpulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5);opacity:.6} }
+    .h-nav { display: flex; gap: 2px; }
+    .h-nav a {
+      color: var(--text-muted, #64748b); text-decoration: none;
+      font-weight: 600; font-size: .85rem;
+      padding: 7px 12px; border-radius: 9px; transition: all .2s; white-space: nowrap;
+    }
+    .h-nav a:hover, .h-nav a.active {
+      background: var(--green-light, #f0fdf4); color: var(--green-dark, #16a34a);
+    }
+    .h-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .h-btn {
+      padding: 7px 16px; border-radius: 10px; font-weight: 700;
+      font-family: 'Inter', sans-serif; font-size: .82rem;
+      cursor: pointer; transition: all .2s; border: none;
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .h-btn-ghost {
+      background: transparent; border: 1.5px solid var(--border, #e2e8f0);
+      color: var(--text-muted, #64748b);
+    }
+    .h-btn-ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .h-btn-green { background: var(--green); color: #fff; box-shadow: 0 3px 10px rgba(34,197,94,.3); }
+    .h-btn-green:hover { background: var(--green-dark); }
+    .h-avatar {
+      width: 28px; height: 28px; background: var(--green-mid, #dcfce7);
+      color: var(--green-dark, #16a34a); border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .68rem;
+    }
+    @media (max-width: 768px) { .h-nav { display: none; } #app-header { padding: 0 16px; } }
+
     </style>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+const APP_CONFIG = {
+  API_BASE: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000' : ''
+};
+</script>
 </head>
 <body>
 
-<header>
-    <div class="logo"><div class="logo-dot"></div>Mamandyk</div>
-    <div style="display:flex;gap:8px;" id="results-header-btns">
-        <button class="btn btn-ghost" onclick="window.location.href='index.html'">← Тестке оралу</button>
-        <button class="btn btn-green" onclick="window.print()">📥 PDF жүктеу</button>
-    </div>
+<header id="app-header">
+  <a href="index.html" class="h-logo"><span class="h-logo-dot"></span>Mamandyk</a>
+  <div class="h-right"></div>
 </header>
 <script>
-// Show profile button if logged in
-(function(){
-    const u = JSON.parse(localStorage.getItem('user')||'null');
-    if(u){
-        const init = ((u.first_name?.[0]||'')+(u.last_name?.[0]||'')).toUpperCase();
-        const extra = document.createElement('button');
-        extra.className = 'btn btn-ghost';
-        extra.style = 'gap:8px';
-        extra.onclick = () => window.location.href='profile.html';
-        extra.innerHTML = `<span style="width:24px;height:24px;background:#dcfce7;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#16a34a;font-size:.7rem">${init}</span> Профиль`;
-        document.getElementById('results-header-btns').prepend(extra);
-    }
-})();
+
+// ── Shared header init ─────────────────────────────
+(async function() {
+  })();
+
+const API = window.APP_CONFIG ? APP_CONFIG.API_BASE : 'http://localhost:5000';
 </script>
 
 <div class="wrap">
@@ -182,7 +233,7 @@
             <div class="cta-wrap">
                 <h3>Дамуға дайынсыз ба?</h3>
                 <p>Таңдалған мамандық бойынша нақты оқу жолдары мен ресурстарды табыңыз</p>
-                <button class="btn-white">🗺 Жол картасын ашу</button>
+                <button class="btn-white" onclick="window.location.href='careers.html'">🗺 Жол картасын ашу</button>
             </div>
         </div>
     </div>
@@ -196,12 +247,19 @@ async function loadResults() {
         if (k?.startsWith('q')) answers[k] = localStorage.getItem(k);
     }
 
-    const token = localStorage.getItem('token');
+    if (!Object.keys(answers).length) {
+        renderPersonality(demoP());
+        document.getElementById('ai-insight').textContent = 'Тест жауаптары табылмады. Алдымен тестті тапсырыңыз.';
+        renderCareers(demoC());
+        return;
+    }
+
+    const token = (localStorage.getItem('mamandyk_token') || localStorage.getItem('token'));
     const headers = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     try {
-        const res = await fetch('http://localhost:5000/api/get-ai-verdict', {
+        const res = await fetch(API + '/api/test/verdict', {
             method:'POST', headers,
             body: JSON.stringify({ answers })
         });

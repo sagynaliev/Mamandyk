@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="kk" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mamandyk — Болашағыңды таңда</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     
     <style>
         :root {
@@ -113,21 +113,83 @@
         @keyframes bop{0%,80%,100%{transform:scale(.6);opacity:.35}40%{transform:scale(1);opacity:1}}
         @media(max-width:600px){nav{display:none;}.hero-stats{gap:16px;}.s3 .c-ring{width:38px;height:38px;}.s2 .c-ring{width:30px;height:30px;}.s1 .c-ring{width:22px;height:22px;}.likert-row{flex-direction:column;gap:10px;}.scale-lbl{width:auto;text-align:center !important;}}
         nav a.active{background:var(--green-light);color:var(--green-dark);font-weight:800;}
+    
+    /* ── Shared Header ── */
+    #app-header {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 8px rgba(0,0,0,.05);
+      gap: 16px;
+    }
+    .h-logo {
+      font-family: 'Geologica', sans-serif;
+      font-size: 1.15rem; font-weight: 900;
+      color: var(--green); text-decoration: none;
+      display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    }
+    .h-logo-dot {
+      width: 8px; height: 8px; background: var(--green);
+      border-radius: 50%; animation: hpulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes hpulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5);opacity:.6} }
+    .h-nav { display: flex; gap: 2px; }
+    .h-nav a {
+      color: var(--text-muted, #64748b); text-decoration: none;
+      font-weight: 600; font-size: .85rem;
+      padding: 7px 12px; border-radius: 9px; transition: all .2s; white-space: nowrap;
+    }
+    .h-nav a:hover, .h-nav a.active {
+      background: var(--green-light, #f0fdf4); color: var(--green-dark, #16a34a);
+    }
+    .h-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .h-btn {
+      padding: 7px 16px; border-radius: 10px; font-weight: 700;
+      font-family: 'Inter', sans-serif; font-size: .82rem;
+      cursor: pointer; transition: all .2s; border: none;
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .h-btn-ghost {
+      background: transparent; border: 1.5px solid var(--border, #e2e8f0);
+      color: var(--text-muted, #64748b);
+    }
+    .h-btn-ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .h-btn-green { background: var(--green); color: #fff; box-shadow: 0 3px 10px rgba(34,197,94,.3); }
+    .h-btn-green:hover { background: var(--green-dark); }
+    .h-avatar {
+      width: 28px; height: 28px; background: var(--green-mid, #dcfce7);
+      color: var(--green-dark, #16a34a); border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .68rem;
+    }
+    @media (max-width: 768px) { .h-nav { display: none; } #app-header { padding: 0 16px; } }
+
     </style>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+const APP_CONFIG = {
+  API_BASE: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000' : ''
+};
+</script>
 </head>
 <body>
 
-<header>
-    <a href="index.html" class="logo"><div class="logo-dot"></div>Mamandyk</a>
-    <nav>
-        <a href="about.html">Тест туралы</a>
-        <a href="careers.html">Мамандықтар</a>
-        <a href="help.html">Көмек</a>
-    </nav>
-    <div class="header-btns" id="header-btns">
-        <button class="btn btn-ghost" onclick="location.href='login.html'">Кіру</button>
-        <button class="btn btn-green" onclick="location.href='register.html'">Тіркелу</button>
-    </div>
+<header id="app-header">
+  <a href="index.html" class="h-logo"><span class="h-logo-dot"></span>Mamandyk</a>
+  <nav class="h-nav">
+    <a href="about.html">Тест туралы</a>
+    <a href="careers.html">Мамандықтар</a>
+    <a href="simulator.html">Симулятор</a>
+    <a href="help.html">Көмек</a>
+  </nav>
+  <div class="h-right" id="h-auth">
+    <a href="login.html" class="h-btn h-btn-ghost">Кіру</a>
+    <a href="register.html" class="h-btn h-btn-green">Тіркелу</a>
+  </div>
 </header>
 
 <main>
@@ -144,12 +206,11 @@
         </div>
         <div class="hero-right">
             <div class="hero-visual">
-                <div class="vis-tag">✓ AI нәтиже</div>
-                <div class="vis-label">Мамандық сәйкестігі</div>
-                <div class="vis-bar-row"><div class="vis-bar-name">Software Eng.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:94%"></div></div><div class="vis-bar-pct">94%</div></div>
-                <div class="vis-bar-row"><div class="vis-bar-name">Data Scientist</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:87%"></div></div><div class="vis-bar-pct">87%</div></div>
-                <div class="vis-bar-row"><div class="vis-bar-name">UX Designer</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:72%"></div></div><div class="vis-bar-pct">72%</div></div>
-                <div class="vis-bar-row"><div class="vis-bar-name">Product Mgr.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:65%"></div></div><div class="vis-bar-pct">65%</div></div>
+                <div class="vis-tag" id="vis-tag">✓ AI нәтиже</div>
+                <div class="vis-label" id="vis-label">Мамандық сәйкестігі</div>
+                <div id="vis-bars">
+                  <div style="display:flex;align-items:center;justify-content:center;height:80px;color:#94a3b8;font-size:.82rem;font-weight:600">Тестті тапсырған соң нәтижелерің осында көрінеді</div>
+                </div>
             </div>
         </div>
     </section>
@@ -164,7 +225,7 @@
 
     <div class="quiz-wrap">
         <div class="progress-row">
-            <span class="progress-text">Прогресс</span>
+            <span class="progress-text" data-i18n="home.progressText">Прогресс</span>
             <span class="page-badge" id="page-indicator">Бет 1 / 4</span>
         </div>
         <div class="progress-track"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
@@ -184,24 +245,31 @@
 </main>
 
 <script>
-const API = 'http://localhost:5000';
+
+// Initialize shared header + i18n
+(async function() {
+  })();
+
+const API = APP_CONFIG.API_BASE;
 let allQ = [], curPage = 0;
 const PER = 5;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Auth header
-    const token = localStorage.getItem('token');
-    const user  = JSON.parse(localStorage.getItem('user') || 'null');
-    if (token && user) {
-        const initials = ((user.first_name?.[0]||'')+(user.last_name?.[0]||'')).toUpperCase();
-        document.getElementById('header-btns').innerHTML = `
-            <button class="btn btn-ghost" onclick="location.href='profile.html'" style="gap:8px">
-                <span style="width:26px;height:26px;background:var(--green-mid);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:.75rem">${initials}</span>
-                ${user.first_name}
-            </button>
-            <button class="btn btn-green" onclick="location.href='profile.html'">Профиль</button>`;
-    }
     loadQ();
+
+    // Dynamic hero vis-bars from last test
+    const lastCareers = JSON.parse(localStorage.getItem('lastCareers') || '[]');
+    if (lastCareers.length) {
+        document.getElementById('vis-tag').textContent = '✓ Сенің нәтижелерің';
+        document.getElementById('vis-label').textContent = 'Соңғы тест нәтижесі';
+        document.getElementById('vis-bars').innerHTML = lastCareers.slice(0,4).map(c =>
+            `<div class="vis-bar-row">
+              <div class="vis-bar-name" style="font-size:.72rem">${c.title.length>12?c.title.substring(0,12)+'…':c.title}</div>
+              <div class="vis-bar-track"><div class="vis-bar-fill" style="width:${c.score}%"></div></div>
+              <div class="vis-bar-pct">${c.score}%</div>
+            </div>`
+        ).join('');
+    }
 });
 
 async function loadQ() {
@@ -286,6 +354,31 @@ function updateUI(){
     document.getElementById('prev-btn').disabled=curPage===0;
     document.getElementById('next-btn').textContent=curPage===total-1?'Нәтижені көру ✓':'Келесі →';
 }
+
+
+</script>
+
+<script>
+(function() {
+  document.querySelectorAll('.h-nav a').forEach(a=>{if(a.getAttribute('href')==='index.html')a.classList.add('active')});
+  
+        try {
+          const u = JSON.parse(localStorage.getItem('mamandyk_user') || localStorage.getItem('user') || 'null');
+          const t = localStorage.getItem('mamandyk_token') || localStorage.getItem('token');
+          const area = document.getElementById('h-auth');
+          if (t && u) {
+            const ini = ((u.first_name||'')[0]||'') + ((u.last_name||'')[0]||'');
+            const dash = u.role==='admin'?'admin.html':u.role==='manager'?'manager.html':'profile.html';
+            area.innerHTML = `<button class="h-btn h-btn-ghost" onclick="location.href='${dash}'" style="gap:6px">
+              <span class="h-avatar">${ini.toUpperCase()}</span><span>${u.first_name}</span></button>
+              <button class="h-btn h-btn-ghost" style="font-size:.78rem;padding:5px 12px" onclick="localStorage.clear();location.href='login.html'">Шығу</button>`;
+          } else {
+            area.innerHTML = '<a href="login.html" class="h-btn h-btn-ghost">Кіру</a><a href="register.html" class="h-btn h-btn-green">Тіркелу</a>';
+          }
+        } catch(e) {
+          document.getElementById('h-auth').innerHTML = '<a href="login.html" class="h-btn h-btn-ghost">Кіру</a><a href="register.html" class="h-btn h-btn-green">Тіркелу</a>';
+        }
+})();
 </script>
 </body>
 </html>
